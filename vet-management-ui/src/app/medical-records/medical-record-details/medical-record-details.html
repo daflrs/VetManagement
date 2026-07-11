@@ -1,0 +1,103 @@
+<app-back-button />
+
+<div class="container py-4">
+    @if (medicalRecordDetails) {
+        <div class="row g-4 mb-5">
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <b>Visit Date:</b>
+                        <p>{{ medicalRecordDetails.visitDate | date:'fullDate' }}</p>
+                        
+                        <b>Symptoms:</b>
+                        <p>{{ medicalRecordDetails.symptoms }}</p>
+                        
+                        <b>Diagnosis:</b>
+                        <p>{{ medicalRecordDetails.diagnosis }}</p>
+                        
+                        <b>Treatment:</b>
+                        <p>{{ medicalRecordDetails.treatment }}</p>
+                        
+                        <div class="card shadow-sm">
+                            <div class="card-body text-white bg-secondary">
+                                <b>Notes:</b>
+                                <p>{{ medicalRecordDetails.notes }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header">
+                        <b>Appointment</b>
+                    </div>
+                    <div class="card-body">
+                        <b>Appointment Date:</b>
+                        <p>{{ medicalRecordDetails.appointment.appointmentDate | date:'fullDate' }}</p>
+                        
+                        <b>Type:</b>
+                        <p>{{ medicalRecordDetails.appointment.type | appointmentType }}</p>
+                        
+                        <b>Reason:</b>
+                        <p>{{ medicalRecordDetails.appointment.reason }}</p>
+                    
+                        <b>Status:</b>
+                        <p>
+                            <app-appointment-status-badge [status]="medicalRecordDetails.appointment.status" />
+                        </p>
+                    </div>
+                </div>
+            </div>            
+        
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header">
+                        <b>Pet</b>
+                    </div>
+                    <div class="card-body">
+                        <b>Name:</b>
+                        <p>{{ medicalRecordDetails.pet.name}}</p>
+                    
+                        <b>Species:</b>
+                        <p>{{ medicalRecordDetails.pet.species }}</p>
+                        
+                        <b>Breed:</b>
+                        <p>{{ medicalRecordDetails.pet.breed }}</p>
+                        
+                        <b>Weight:</b>
+                        <p>{{ medicalRecordDetails.pet.weight }}</p>
+                                
+                        <b>Date of Birth:</b>
+                        <p>{{ medicalRecordDetails.pet.birthDate | date:'MMMM d, y' }}</p>
+                    </div>
+                </div>
+            </div>     
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header">
+                        <b>Owner</b>
+                    </div>
+                    <div class="card-body">
+                        <b>Name:</b>
+                        <p>{{ medicalRecordDetails.owner.firstName }} {{ medicalRecordDetails.owner.lastName }}</p>
+                        
+                        <b>Phone:</b>
+                        <p>{{ medicalRecordDetails.owner.phoneNumber }}</p>
+                        
+                        <b>Email:</b>
+                        <p>{{ medicalRecordDetails.owner.email }}</p>
+                        
+                        <b>Address:</b>
+                        <p>{{ medicalRecordDetails.owner.address }}</p>
+                    </div>
+                </div>
+            </div>     
+        </div>
+    }
+</div>

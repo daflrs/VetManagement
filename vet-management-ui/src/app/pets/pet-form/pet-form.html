@@ -1,0 +1,75 @@
+<app-back-button />
+
+<div class="container py-4">
+
+    <div class="row">
+
+        <div class="col-lg-2"></div>
+
+        <div class="col-lg-8">
+
+            <h2 class="mb-4">{{ isEditMode ? 'Update' : 'Create' }} Pet Record</h2>
+
+            <form [formGroup]="form" (ngSubmit)="submit()">
+            
+                <div class="input-group mb-3">
+                    <label class="input-group-text">
+                        Name
+                        <span class="text-danger ms-1">*</span>
+                    </label>
+                    <input class="form-control" formControlName="name" />
+                </div>
+                
+                <div class="input-group mb-3">
+                    <label class="input-group-text">
+                        Species
+                        <span class="text-danger ms-1">*</span>
+                    </label>
+                    <input class="form-control" formControlName="species" />
+                </div>
+                
+                <div class="input-group mb-3">
+                    <label class="input-group-text">
+                        Breed
+                        <span class="text-danger ms-1">*</span>
+                    </label>
+                    <input class="form-control" formControlName="breed" />
+                </div>
+                
+                <div class="input-group mb-3">
+                    <label class="input-group-text">
+                        Birth Date
+                        <span class="text-danger ms-1">*</span>
+                    </label>
+                    <input class="form-control" type="date" formControlName="birthDate" />
+                </div>
+                
+                <div class="input-group mb-3">
+                    <label class="input-group-text">
+                        Weight
+                        <span class="text-danger ms-1">*</span>
+                    </label>
+                    <input class="form-control" type="number" formControlName="weight" />
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect1">Owner</label>
+                    <select id="inputGroupSelect1" class="form-select" formControlName="ownerId">
+                        <option value="">Select Owner</option>
+                        @for (owner of owners; track owner.ownerId) {
+                            <option [value]="owner.ownerId">
+                            {{ owner.firstName }}{{ owner.lastName }}
+                            </option>
+                        }
+                    </select>
+                </div>
+            
+                <button type="submit" class="btn btn-primary" [disabled]="loading">
+                    {{ isEditMode ? 'Update' : 'Create' }} Pet Record
+                </button>
+            </form>
+        </div>
+
+        <div class="col-lg-2"></div>
+    </div>
+</div>

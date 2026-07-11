@@ -1,0 +1,12 @@
+<div class="toast-container">
+    @for (toast of (toastService.toast$ | async); track toast.id) {
+        <div 
+            [ngClass]="[
+                toast.type,
+                toast.closing ? 'closing' : ''
+            ]" 
+            class="toast-content">
+            {{ toast.message }}
+        </div>
+    }
+</div>

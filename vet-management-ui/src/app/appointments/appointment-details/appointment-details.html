@@ -1,0 +1,126 @@
+<app-back-button />
+
+<div class="container py-4">
+    @if (isLoading) {
+        <app-loading-spinner message="Loading appointment details..." />
+    }
+    @if (appointmentDetails) {
+        @if (appointmentDetails.status === AppointmentStatus.Scheduled) {
+            <button
+                type="button"
+                class="btn btn-primary me-3 mb-3"
+                (click)="checkInAppointment(appointmentDetails.appointmentId)"
+                [disabled]="isLoading">
+                    @if (processingAction === 'checkIn') {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        Checking-in...
+                    } @else {
+                        Check-in
+                    }
+            </button>
+            <button
+                type="button"
+                class="btn btn-outline-secondary me-3 mb-3"
+                (click)="noShowAppointment(appointmentDetails.appointmentId)"
+                [disabled]="isLoading">
+                @if (processingAction === 'noShow') {
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Setting to no show...
+                } @else {
+                    No Show
+                }
+            </button>
+            <button
+                type="button"
+                class="btn btn-outline-danger mb-3"
+                (click)="cancelAppointment(appointmentDetails.appointmentId)"
+                [disabled]="isLoading">
+                    @if (processingAction === 'cancel') {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        Cancelling...
+                    } @else {
+                        Cancel
+                    }
+            </button>
+        }
+        @if (appointmentDetails.status === AppointmentStatus.InProgress) {
+            <button
+                type="button"
+                class="btn btn-outline-success mb-3"
+                (click)="completeAppointment(appointmentDetails.appointmentId)"
+                [disabled]="isLoading">
+                    @if (processingAction === 'complete') {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        Completing...
+                    } @else {
+                        Complete
+                    }
+            </button>
+        }
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header">
+                        <b>Appointment Date:</b>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ appointmentDetails.appointmentDate | date: 'fullDate' }}</p>
+                    
+                        <b>Type:</b>
+                        <p>{{ appointmentDetails.type | appointmentType }}</p>
+                        
+                        <b>Reason:</b>
+                        <p>{{ appointmentDetails.reason }}</p>
+                    
+                        <b>Status:</b>
+                        <p>
+                            <app-appointment-status-badge [status]="appointmentDetails.status" />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header">
+                        <b>Pet</b>
+                    </div>
+                    <div class="card-body">
+                        <b>Pet name:</b>
+                        <p>{{ appointmentDetails.pet.name }}</p>
+                        
+                        <b>Species:</b>
+                        <p>{{ appointmentDetails.pet.species }}</p>
+                        
+                        <b>Breed:</b>
+                        <p>{{ appointmentDetails.pet.breed }}</p>
+                        
+                        <b>Weight:</b>
+                        <p>{{ appointmentDetails.pet.weight }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header">
+                        <b>Owner</b>
+                    </div>
+                    <div class="card-body">
+                        <b>Name:</b>
+                        <p>{{ appointmentDetails.owner.firstName }} {{ appointmentDetails.owner.lastName }}</p>
+                        
+                        <b>Phone:</b>
+                        <p>{{ appointmentDetails.owner.phoneNumber }}</p>
+                        
+                        <b>Email:</b>
+                        <p>{{ appointmentDetails.owner.email }}</p>
+                        
+                        <b>Address:</b>
+                        <p>{{ appointmentDetails.owner.address }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

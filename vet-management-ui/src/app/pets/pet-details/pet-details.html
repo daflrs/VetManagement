@@ -1,0 +1,53 @@
+<app-back-button />
+
+<div class="container py-4">
+    @if (petDetails) {
+        <div class="row g-4 mb-5">
+            
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header">
+                        <h2>{{ petDetails.name }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <b>Species:</b>
+                        <p>{{ petDetails.species }}</p>
+                        
+                        <b>Breed:</b>
+                        <p>{{ petDetails.breed }}</p>
+                        
+                        <b>Weight:</b>
+                        <p>{{ petDetails.weight }}</p>
+                        
+                        <b>Date of Birth:</b>
+                        <p>{{ petDetails.birthDate | date:'MMMM d, y' }}</p>
+                        
+                    </div>
+                </div>
+            </div>
+            @if (petDetails.owner) {
+                <div class="col-lg-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header">
+                            <h3>Owner</h3>
+                        </div>
+                    
+                        <div class="card-body">
+                            <b>Name:</b>
+                            <p>{{ petDetails.owner.firstName }} {{ petDetails.owner.lastName }}</p>
+                            
+                            <b>Phone:</b>
+                            <p>{{ petDetails.owner.phoneNumber }}</p>
+                            
+                            <b>Email:</b>
+                            <p>{{ petDetails.owner.email }}</p>
+                            
+                            <b>Address:</b>
+                            <p>{{ petDetails.owner.address }}</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

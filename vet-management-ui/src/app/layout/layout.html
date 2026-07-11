@@ -1,0 +1,41 @@
+<app-toast></app-toast>
+
+<div class="d-flex vh-100">
+    <nav class="sidebar border-end bg-light" [class.collapsed]="collapsed">
+        <button class="btn btn-outline-secondary m-3" (click)="toggleSidebar()">☰</button>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    routerLink="/pets"
+                    routerLinkActive="active"><i class="bi bi-heart-fill"></i><span class="label">Pets</span></a>
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    routerLink="/owners"
+                    routerLinkActive="active"><i class="bi bi-person-rolodex"></i><span class="label">Owners</span></a>
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    routerLink="/appointments"
+                    routerLinkActive="active"><i class="bi bi-calendar-check-fill"></i><span class="label">Appointments</span></a>
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    routerLink="/medical-records"
+                    routerLinkActive="active"><i class="bi bi-clipboard2-pulse-fill"></i><span class="label">Medical Records</span></a>
+            </li>
+            <li class="nav-item">
+                <a
+                class="nav-link"
+                routerLink="/login"><span class="label">Login</span></a>
+            </li>
+        </ul>
+    </nav>
+    <main class="flex-grow-1 p-4 overflow-auto">
+        <router-outlet />
+    </main>
+</div>

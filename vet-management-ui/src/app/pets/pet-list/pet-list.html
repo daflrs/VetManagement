@@ -1,0 +1,57 @@
+<h2>Pets</h2>
+
+@if (loadingState !== 'loading') {
+    <button type="button" class="btn btn-primary mb-3" routerLink="/create-pet">+ Create Pet Record</button>
+}
+
+@if (loadingState === 'loading') {
+    <p>Loading pets...</p>
+}
+@else if (loadingState === 'empty') {
+    <p>No pets found.</p>
+}
+@else if (loadingState === 'error') {
+    <p>Failed to load pets.</p>
+    <button type="button" class="btn btn-secondary" (click)="loadPets()">Retry</button>
+}
+@else {
+    <div class="input-group input-group-sm mb-3">
+        <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="searchTerm"
+            placeholder="Search pets..." />
+            <button class="btn btn-secondary" (click)="resetSearch()">Reset</button>
+            <button class="btn btn-dark" (click)="search()">Search</button>
+    </div>
+    
+    
+    <table class="table table-hover" border="1" cellpadding="8">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Species</th>
+                <th>Breed</th>
+                <th>Weight</th>
+                <th>Owner</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            @for (pet of pets; track pet.petId) {
+                <tr (click)="viewPet(pet.petId)">
+                    <td>{{ pet.name }}</td>
+                    <td>{{ pet.species }}</td>
+                    <td>{{ pet.breed }}</td>
+                    <td>{{ pet.weight }} kg</td>
+                    <td>{{ pet.ownerName }}</td>
+                    <td>
+                        <label class="m-1" (click)="editPet($event, pet.petId)">✏</label>
+                        <label class="m-1" (click)="deletePet($event, pet.petId)">🗑</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
