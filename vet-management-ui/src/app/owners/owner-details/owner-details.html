@@ -90,27 +90,6 @@
                             }
                         </div>
 
-                        <!-- <div class="input-group mb-3">
-                            <button class="btn btn-outline-secondary" (click)="togglePetSelector()">
-                                {{ showAddPetToOwnerSelector ? 'Cancel' : '+ Add Pet' }}
-                            </button>
-                            @if (showAddPetToOwnerSelector) {
-                                <select class="form-select">
-                                    <option value="">Choose pets...</option>
-                                    
-                                    @for (pet of pets; track pet.petId) {
-                                        <option [value]="pet.petId">
-                                            {{ pet.name }} - {{ pet.species }}, {{ pet.breed }}
-                                        </option>
-                                    }
-    
-                                </select>
-                                <button class="btn btn-outline-secondary" (click)="togglePetSelector()">
-                                    Assign Pet(s)
-                                </button>
-                            }
-                        </div> -->
-
                         @if (ownerDetails.pets.length > 0) {
                             @for (pet of ownerDetails.pets; track pet.petId) {
                                 <div class="card bg-light" (click)="viewPetDetails(pet.petId)">
