@@ -5,7 +5,7 @@
         <div class="row mb-4">
             <div class="col">
                 @if (medicalRecordDetails.appointment) {
-                    <div class="card shadow-sm h-100" (click)="viewAppointmentDetails(medicalRecordDetails.appointment.appointmentId)">
+                    <div class="card clickable-card shadow-sm h-100" (click)="viewAppointmentDetails(medicalRecordDetails.appointment.appointmentId)">
                         <div class="card-header">
                             <b>Appointment</b>
                         </div>
@@ -68,7 +68,7 @@
             </div>
 
             <div class="col-lg-6">
-                <div class="card shadow-sm h-100" (click)="viewPetDetails(medicalRecordDetails.pet.petId)">
+                <div class="card clickable-card shadow-sm h-100" (click)="viewPetDetails(medicalRecordDetails.pet.petId)">
                     <div class="card-header">
                         <b>Pet</b>
                     </div>
@@ -94,7 +94,7 @@
 
         <div class="row">
             <div class="col-lg">
-                <div class="card shadow-sm h-100" (click)="viewOwnerDetails(medicalRecordDetails.owner.ownerId)">
+                <div class="card clickable-card shadow-sm h-100" (click)="viewOwnerDetails(medicalRecordDetails.owner.ownerId)">
                     <div class="card-header">
                         <b>Owner</b>
                     </div>

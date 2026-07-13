@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+.clickable-card {
+    cursor: pointer;
+    transition: background-color 0.1s ease, box-shadow 0.2s ease;
+}
+
+.clickable-card:hover {
+    background-color: var(--bs-gray-100);
+    box-shadow: var(--bs-box-shadow);
+}
+
+.clickable {
+    cursor: pointer;
+}
