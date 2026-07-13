@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { AppointmentService } from '../../services/appointment.service';
 import { BackButton } from '../../common/back-button/back-button';
@@ -27,7 +27,8 @@ export class AppointmentDetails {
   constructor(
     private toastService: ToastService,
     private appointmentService: AppointmentService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -129,5 +130,13 @@ export class AppointmentDetails {
         this.processingAction = null;
       }
     });
+  }
+
+  viewOwnerDetails(id: number): void {
+    this.router.navigate(['owners/details', id]);
+  }
+  
+  viewPetDetails(id: number): void {
+    this.router.navigate(['pets/details', id]);
   }
 }

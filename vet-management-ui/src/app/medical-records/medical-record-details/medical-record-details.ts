@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MedicalRecordService } from '../../services/medical-record.service';
 import { BackButton } from '../../common/back-button/back-button';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppointmentTypePipe } from '../../common/pipes/appointment-type.pipe.ts/appointment-type.pipe.ts';
 import { AppointmentStatusBadge } from '../../common/appointment-status-badge/appointment-status-badge';
 
@@ -21,7 +21,8 @@ export class MedicalRecordDetails {
 
   constructor(
     private medicalRecordService: MedicalRecordService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -46,5 +47,17 @@ export class MedicalRecordDetails {
         this.loadingState = 'error';
       }
     });
+  }
+  
+  viewAppointmentDetails(id: number): void {
+    this.router.navigate(['appointments/details', id]);
+  }
+
+  viewOwnerDetails(id: number): void {
+    this.router.navigate(['owners/details', id]);
+  }
+  
+  viewPetDetails(id: number): void {
+    this.router.navigate(['pets/details', id]);
   }
 }

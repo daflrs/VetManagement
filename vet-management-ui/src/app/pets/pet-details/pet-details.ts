@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { PetService } from '../../services/pet.service';
 import { BackButton } from '../../common/back-button/back-button';
@@ -21,7 +21,8 @@ export class PetDetails {
   constructor(
     private petService: PetService,
     private route: ActivatedRoute,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -47,5 +48,9 @@ export class PetDetails {
         this.loadingState = 'error';
       }
     });
+  }
+  
+  viewOwnerDetails(id: number): void {
+    this.router.navigate(['owners/details', id]);
   }
 }

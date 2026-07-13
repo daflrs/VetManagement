@@ -102,6 +102,7 @@ namespace VetManagement.Controllers
                     Appointment = m.Appointment != null
                         ? new AppointmentDto
                         {
+                            AppointmentId = m.Appointment.AppointmentId,
                             Type = m.Appointment.Type,
                             AppointmentDate = m.Appointment.AppointmentDate,
                             Reason = m.Appointment.Reason,
