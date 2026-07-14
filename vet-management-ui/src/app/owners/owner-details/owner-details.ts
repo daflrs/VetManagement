@@ -76,6 +76,12 @@ export class OwnerDetails {
     });
   }
 
+  addNewPetFromOwner(ownerId: number): void {
+    this.router.navigate(['/create-pet'], {
+      queryParams: { ownerId: ownerId }
+    });
+  }
+
   addPetsToOwner(): void {
     if (this.ownerId === null) {
       this.toastService.error('Owner ID is missing.');

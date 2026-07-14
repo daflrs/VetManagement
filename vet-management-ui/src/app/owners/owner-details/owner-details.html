@@ -28,71 +28,78 @@
                     </div>
                     <div class="card-body d-grid gap-3">
 
-                        <div class="input-group">
-                            <button class="btn btn-outline-secondary" (click)="togglePetSelector()">
-                                {{ showAddPetToOwnerSelector ? 'Cancel' : '+ Add Pet' }}
-                            </button>
-                            @if (showAddPetToOwnerSelector) {
-                                <div class="position-relative flex-grow-1">
-                                    <div 
-                                        class="form-control d-flex flex-wrap gap-2 align-items-center"
-                                        (click)="toggleDropdown()">
-        
-                                        @if (selectedPets.length === 0) {
-                                            <span class="text-muted">
-                                                Select pets...
-                                            </span>
-                                        }
-        
-                                        @for (pet of selectedPets; track pet.petId) {
-                                            <span class="badge text-bg-primary" (click)="removePet($event, pet.petId)">
-                                                {{ pet.name }}
-                                                ✕
-                                            </span>
-                                        }
-        
-                                        <span class="ms-auto">
-                                            <i
-                                                class="bi"
-                                                [class.bi-chevron-down]="!showAddPetDropdown"
-                                                [class.bi-chevron-up]="showAddPetDropdown"></i>
-                                        </span>
-                                    </div>
-                                    @if (showAddPetDropdown) {
-                                        <div class="list-group position-absolute w-100 shadow mt-1 add-pet-dropdown">
-                                            
-                                            @if (availablePets.length === 0) {
-                                                <div class="list-group-item text-muted">
-                                                    @if (loadingState !== 'loaded') {
-                                                        Loading pets...
-                                                    }
-                                                    @else {
-                                                        No more pets available.
-                                                    }
-                                                </div>
-                                            }
-                                            @else {
-                                                @for (pet of availablePets; track pet.petId) {
-                                                    <button
-                                                        type="button"
-                                                        class="list-group-item list-group-item-action"
-                                                        (click)="selectPet(pet)">
-                                                        {{ pet.name }} - {{ pet.species }}, {{ pet.breed }}
-                                                    </button>
-                                                }
-                                            }
-                                        </div>
-                                    }
-                                </div>
-                                <button class="btn btn-secondary" (click)="addPetsToOwner()" [disabled]="!canAssignPets">
-                                    Assign Pet(s)
+                        <div class="d-flex gap-2">
+                            @if (!showAddPetToOwnerSelector) {
+                                <button class="btn btn-outline-secondary" (click)="addNewPetFromOwner(ownerDetails.ownerId)">
+                                    + Add New Pet
                                 </button>
                             }
+                            <div class="d-flex flex-grow-1">
+                                <button class="btn btn-outline-secondary" (click)="togglePetSelector()">
+                                    {{ showAddPetToOwnerSelector ? 'Cancel' : '+ Add Existing Pet(s)' }}
+                                </button>
+                                @if (showAddPetToOwnerSelector) {
+                                    <div class="position-relative flex-grow-1">
+                                        <div 
+                                            class="form-control d-flex flex-wrap gap-2 align-items-center"
+                                            (click)="toggleDropdown()">
+            
+                                            @if (selectedPets.length === 0) {
+                                                <span class="text-muted">
+                                                    Select pets...
+                                                </span>
+                                            }
+            
+                                            @for (pet of selectedPets; track pet.petId) {
+                                                <span class="badge text-bg-primary" (click)="removePet($event, pet.petId)">
+                                                    {{ pet.name }}
+                                                    ✕
+                                                </span>
+                                            }
+            
+                                            <span class="ms-auto">
+                                                <i
+                                                    class="bi"
+                                                    [class.bi-chevron-down]="!showAddPetDropdown"
+                                                    [class.bi-chevron-up]="showAddPetDropdown"></i>
+                                            </span>
+                                        </div>
+                                        @if (showAddPetDropdown) {
+                                            <div class="list-group position-absolute w-100 shadow mt-1 add-pet-dropdown">
+                                                
+                                                @if (availablePets.length === 0) {
+                                                    <div class="list-group-item text-muted">
+                                                        @if (loadingState !== 'loaded') {
+                                                            Loading pets...
+                                                        }
+                                                        @else {
+                                                            No more pets available.
+                                                        }
+                                                    </div>
+                                                }
+                                                @else {
+                                                    @for (pet of availablePets; track pet.petId) {
+                                                        <button
+                                                            type="button"
+                                                            class="list-group-item list-group-item-action"
+                                                            (click)="selectPet(pet)">
+                                                            {{ pet.name }} - {{ pet.species }}, {{ pet.breed }}
+                                                        </button>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    <button class="btn btn-secondary" (click)="addPetsToOwner()" [disabled]="!canAssignPets">
+                                        Assign Pet(s)
+                                    </button>
+                                }
+                            </div>
                         </div>
 
                         @if (ownerDetails.pets.length > 0) {
                             @for (pet of ownerDetails.pets; track pet.petId) {
-                                <div class="card bg-light" (click)="viewPetDetails(pet.petId)">
+                                <div class="card clickable bg-light" (click)="viewPetDetails(pet.petId)">
                                     <div class="card-body">
                                         <small><span>Name: </span><b>{{ pet.name }}</b></small>
                                         <div class="row">

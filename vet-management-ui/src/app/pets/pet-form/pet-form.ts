@@ -19,6 +19,7 @@ export class PetForm {
   loading: boolean = false;
   owners: any[] = []
   petId: number | null = null
+  preselectedOwnerId: number | null = null
 
   constructor(
     private fb: FormBuilder,
@@ -39,6 +40,15 @@ export class PetForm {
     });
 
     this.loadOwners();
+
+    const ownerId = this.route.snapshot.queryParamMap.get('ownerId');
+
+    if (ownerId) {
+      this.preselectedOwnerId = +ownerId;
+      this.form.patchValue({
+        ownerId: this.preselectedOwnerId
+      });
+    }
 
     const id = this.route.snapshot.paramMap.get('id');
 
@@ -121,5 +131,10 @@ export class PetForm {
   
   get isEditMode(): boolean {
     return this.petId !== null;
+  }
+
+  get ownerIsPreselected(): boolean {
+    return this.preselectedOwnerId !== null
+      && Number(this.form.value.ownerId) === this.preselectedOwnerId;
   }
 }
