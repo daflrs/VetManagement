@@ -1,101 +1,95 @@
 <app-back-button />
 
-<div class="container py-4">
-    <div class="row">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
-            <h2 class="mb-4">{{ isEditMode ? 'Update' : 'Create' }} Medical Record</h2>
+<div class="py-4 w-50">
+    <h2 class="mb-4">{{ isEditMode ? 'Update' : 'Create' }} Medical Record</h2>
+    
+    <form [formGroup]="form" (ngSubmit)="submit()">
+    
+        @if (!medicalRecordId) {
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect1">Appointment</label>
+                <select id="inputGroupSelect1" class="form-select" formControlName="appointmentId">
+                    <option [ngValue]="null">Select Appointment</option>
             
-            <form [formGroup]="form" (ngSubmit)="submit()">
-            
-                @if (!medicalRecordId) {
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupSelect1">Appointment</label>
-                        <select id="inputGroupSelect1" class="form-select" formControlName="appointmentId">
-                            <option [ngValue]="null">Select Appointment</option>
-                    
-                            @for (appointment of appointments; track appointment.appointmentId) {
-                                <option [value]="appointment.appointmentId">
-                                    {{ appointment.petName }} - {{ appointment.appointmentDate | date: 'full' }}
-                                </option>
-                            }
+                    @for (appointment of appointments; track appointment.appointmentId) {
+                        <option [value]="appointment.appointmentId">
+                            {{ appointment.petName }} - {{ appointment.appointmentDate | date: 'full' }}
+                        </option>
+                    }
 
-                        </select>
-                    </div>
+                </select>
+            </div>
+        }
+    
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect2">
+                Pet
+                <span class="text-danger ms-1">*</span>
+            </label>
+            <select id="inputGroupSelect2" class="form-select" formControlName="petId">
+                <option value="">Select Pet</option>
+        
+                @for (pet of pets; track pet.petId) {
+                    <option [value]="pet.petId">
+                        {{ pet.name }} - {{ pet.species }}, {{ pet.breed }}
+                    </option>
                 }
-            
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupSelect2">
-                        Pet
-                        <span class="text-danger ms-1">*</span>
-                    </label>
-                    <select id="inputGroupSelect2" class="form-select" formControlName="petId">
-                        <option value="">Select Pet</option>
-                
-                        @for (pet of pets; track pet.petId) {
-                            <option [value]="pet.petId">
-                                {{ pet.name }} - {{ pet.species }}, {{ pet.breed }}
-                            </option>
-                        }
 
-                    </select>
-                </div>
-
-                <div class="input-group mb-3">
-                    <label class="input-group-text">
-                        Visit Date
-                        <span class="text-danger ms-1">*</span>
-                    </label>
-                    <input class="form-control" type="date" formControlName="visitDate" />
-                </div>
-                
-                <div class="input-group mb-3">
-                    <label class="input-group-text">
-                        Symptoms
-                        <span class="text-danger ms-1">*</span>
-                    </label>
-                    <textarea class="form-control" formControlName="symptoms"></textarea>
-                </div>
-                
-                <div class="input-group mb-3">
-                    <label class="input-group-text">
-                        Diagnosis
-                        <span class="text-danger ms-1">*</span>
-                    </label>
-                    <textarea class="form-control" formControlName="diagnosis"></textarea>
-                </div>
-                
-                <div class="input-group mb-3">
-                    <label class="input-group-text">
-                        Treatment
-                        <span class="text-danger ms-1">*</span>
-                    </label>
-                    <textarea class="form-control" formControlName="treatment"></textarea>
-                </div>
-                
-                <div class="input-group mb-3">
-                    <label class="input-group-text">
-                        Pet Weight
-                        <span class="text-danger ms-1">*</span>
-                    </label>
-                    <input class="form-control" formControlName="weight">
-                </div>
-                
-                <div class="input-group mb-3">
-                    <label class="input-group-text">
-                        Notes
-                        <span class="text-danger ms-1">*</span>
-                    </label>
-                    <textarea class="form-control" formControlName="notes"></textarea>
-                </div>
-            
-                <button type="submit" class="btn btn-primary" [disabled]="loading">
-                    {{ isEditMode ? 'Update' : 'Create' }} Medical Record
-                </button>
-            </form>
+            </select>
         </div>
-        <div class="col-lg-2"></div>
-    </div>
+
+        <div class="input-group mb-3">
+            <label class="input-group-text">
+                Visit Date
+                <span class="text-danger ms-1">*</span>
+            </label>
+            <input class="form-control" type="date" formControlName="visitDate" />
+        </div>
+        
+        <div class="input-group mb-3">
+            <label class="input-group-text">
+                Symptoms
+                <span class="text-danger ms-1">*</span>
+            </label>
+            <textarea class="form-control" formControlName="symptoms"></textarea>
+        </div>
+        
+        <div class="input-group mb-3">
+            <label class="input-group-text">
+                Diagnosis
+                <span class="text-danger ms-1">*</span>
+            </label>
+            <textarea class="form-control" formControlName="diagnosis"></textarea>
+        </div>
+        
+        <div class="input-group mb-3">
+            <label class="input-group-text">
+                Treatment
+                <span class="text-danger ms-1">*</span>
+            </label>
+            <textarea class="form-control" formControlName="treatment"></textarea>
+        </div>
+        
+        <div class="input-group mb-3">
+            <label class="input-group-text">
+                Pet Weight
+                <span class="text-danger ms-1">*</span>
+            </label>
+            <input class="form-control" formControlName="weight">
+        </div>
+        
+        <div class="input-group mb-3">
+            <label class="input-group-text">
+                Notes
+                <span class="text-danger ms-1">*</span>
+            </label>
+            <textarea class="form-control" formControlName="notes"></textarea>
+        </div>
+    
+        <button type="submit" class="btn btn-primary" [disabled]="loading">
+            {{ isEditMode ? 'Update' : 'Create' }} Medical Record
+        </button>
+    </form>
 </div> 
     
 <app-confirm-modal

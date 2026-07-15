@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Toast } from '../common/toast/toast';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, RouterLink, Toast],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Toast],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
