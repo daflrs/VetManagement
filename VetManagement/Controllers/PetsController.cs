@@ -18,6 +18,30 @@ namespace VetManagement.Controllers
             _context = context;
         }
 
+        private static PetDetailsDto ToDetailsDto(Pet pet)
+        {
+            return new PetDetailsDto
+            {
+                PetId = pet.PetId,
+                Name = pet.Name,
+                Species = pet.Species,
+                Breed = pet.Breed,
+                BirthDate = pet.BirthDate,
+                Weight = pet.Weight,
+                Owner = pet.Owner != null
+                        ? new OwnerDto
+                        {
+                            OwnerId = pet.Owner.OwnerId,
+                            FirstName = pet.Owner.FirstName,
+                            LastName = pet.Owner.LastName,
+                            PhoneNumber = pet.Owner.PhoneNumber,
+                            Email = pet.Owner.Email,
+                            Address = pet.Owner.Address
+                        }
+                        : null
+            };
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PetDto>>> GetPets()
         {
@@ -74,27 +98,8 @@ namespace VetManagement.Controllers
         public async Task<ActionResult<PetDetailsDto>> GetPetDetails(int id)
         {
             var pet = await _context.Pets
+                .Include(a =>  a.Owner)
                 .Where(a => a.PetId == id)
-                .Select(a => new PetDetailsDto
-                {
-                    PetId = a.PetId,
-                    Name = a.Name,
-                    Species = a.Species,
-                    Breed = a.Breed,
-                    BirthDate = a.BirthDate,
-                    Weight= a.Weight,
-                    Owner = a.Owner != null
-                        ? new OwnerDto
-                        {
-                            OwnerId = a.Owner.OwnerId,
-                            FirstName = a.Owner.FirstName,
-                            LastName = a.Owner.LastName,
-                            PhoneNumber = a.Owner.PhoneNumber,
-                            Email = a.Owner.Email,
-                            Address = a.Owner.Address
-                        }
-                        : null
-                })
                 .FirstOrDefaultAsync();
 
             if (pet == null)
@@ -102,7 +107,7 @@ namespace VetManagement.Controllers
                 return ApiResponses.NotFound($"Pet with {id} not found.");
             }
 
-            return Ok(pet);
+            return Ok(ToDetailsDto(pet));
         }
 
         [HttpGet("search")]
@@ -167,7 +172,7 @@ namespace VetManagement.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<PetDto>> UpdatePet(int id, UpdatePetDto dto)
+        public async Task<ActionResult<PetDetailsDto>> UpdatePet(int id, UpdatePetDto dto)
         {
             var pet = await _context.Pets.FindAsync(id);
 
@@ -185,7 +190,11 @@ namespace VetManagement.Controllers
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            await _context.Entry(pet)
+                .Reference(p => p.Owner)
+                .LoadAsync();
+
+            return Ok(ToDetailsDto(pet));
         }
 
         [HttpDelete("{id}")]

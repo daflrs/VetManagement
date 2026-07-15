@@ -12,3 +12,17 @@
 .clickable {
     cursor: pointer;
 }
+
+.card-body form {
+    display: grid;
+    gap: .75rem;
+}
+
+.card-body form .row {
+    align-items: center;
+}
+
+.card-body form .col-2 {
+    text-align: end;
+    padding: 0;
+}

@@ -6,22 +6,57 @@
             
             <div class="col-lg-6">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header">
-                        <h2>{{ petDetails.name }}</h2>
+                    <div class="card-header d-flex align-items-center">
+                        <h3>Pet</h3>
+                        <button type="button" class="btn btn-sm btn-primary ms-auto" [disabled]="!form.dirty" (click)="saveEditChanges()">Save</button>
                     </div>
                     <div class="card-body">
-                        <b>Species:</b>
-                        <p>{{ petDetails.species }}</p>
-                        
-                        <b>Breed:</b>
-                        <p>{{ petDetails.breed }}</p>
-                        
-                        <b>Weight:</b>
-                        <p>{{ petDetails.weight }}</p>
-                        
-                        <b>Date of Birth:</b>
-                        <p>{{ petDetails.birthDate | date:'MMMM d, y' }}</p>
-                        
+                        <form [formGroup]="form">
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Name:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" formControlName="name">
+                                </div>
+                            </div>
+        
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Species:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" formControlName="species">
+                                </div>
+                            </div>
+                                
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Breed:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" formControlName="breed">
+                                </div>
+                            </div>
+                                
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Weight:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" formControlName="weight">
+                                </div>
+                            </div>
+                                
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Birth:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="date" formControlName="birthDate">
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
