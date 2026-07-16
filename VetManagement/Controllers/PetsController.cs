@@ -186,7 +186,65 @@ namespace VetManagement.Controllers
             pet.Breed = dto.Breed;
             pet.BirthDate = dto.BirthDate;
             pet.Weight = dto.Weight;
+
+            await _context.SaveChangesAsync();
+
+            await _context.Entry(pet)
+                .Reference(p => p.Owner)
+                .LoadAsync();
+
+            return Ok(ToDetailsDto(pet));
+        }
+
+        [HttpPut("{id}/owner")]
+        public async Task<ActionResult<PetDetailsDto>> UpdateOwner(int id, AssignOwnerToPetDto dto)
+        {
+            var pet = await _context.Pets.FindAsync(id);
+
+            if (pet == null)
+            {
+                return ApiResponses.NotFound($"Pet with {id} not found.");
+            }
+
+            var ownerExists = await _context.Owners.AnyAsync(o => o.OwnerId == dto.OwnerId);
+
+            if (!ownerExists)
+            {
+                return ApiResponses.NotFound($"Owner with {id} not found.");
+            }
+
+            if (pet.OwnerId == dto.OwnerId)
+            {
+                return ApiResponses.BadRequest("This owner is already assigned to this pet.");
+            }
+
             pet.OwnerId = dto.OwnerId;
+
+            await _context.SaveChangesAsync();
+
+            await _context.Entry(pet)
+                .Reference(p => p.Owner)
+                .LoadAsync();
+
+            return Ok(ToDetailsDto(pet));
+        }
+
+        [HttpDelete("{id}/owner")]
+        public async Task<ActionResult<PetDetailsDto>> RemoveOwner(int id)
+        {
+            var pet = await _context.Pets.FindAsync(id);
+
+            if (pet == null)
+            {
+                return ApiResponses.NotFound($"Pet with {id} not found.");
+            }
+
+            if (pet.OwnerId == null)
+            {
+                return ApiResponses.BadRequest("This pet does not have an owner to remove.");
+            }
+
+            pet.OwnerId = null;
 
             await _context.SaveChangesAsync();
 

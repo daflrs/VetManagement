@@ -46,4 +46,15 @@ export class PetService {
   updatePet(id: number, pet: any) {
     return this.http.put(`${this.apiUrlPets}/${id}`, pet);
   }
+  
+  updateOwner(id: number, ownerId: number): Observable<PetDetailsDto> {
+    return this.http.put<PetDetailsDto>(`${this.apiUrlPets}/${id}/owner`,
+      {
+        ownerId
+      });
+  }
+  
+  removeOwner(id: number) {
+    return this.http.delete(`${this.apiUrlPets}/${id}/owner`);
+  }
 }

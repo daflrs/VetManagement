@@ -5,13 +5,22 @@
         <div class="row g-4 mb-5">
             
             <div class="col-lg-6">
-                <div class="card shadow-sm h-100">
+                <div class="card shadow-sm">
                     <div class="card-header d-flex align-items-center">
                         <h3>Pet</h3>
-                        <button type="button" class="btn btn-sm btn-primary ms-auto" [disabled]="!form.dirty" (click)="saveEditChanges()">Save</button>
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-primary ms-auto"
+                            [disabled]="!petForm.dirty || isLoadingPet || isSavingPet"
+                            (click)="saveEditChanges()">
+                                @if (isLoadingPet || isSavingPet) {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                } 
+                                Save
+                        </button>
                     </div>
                     <div class="card-body">
-                        <form [formGroup]="form">
+                        <form [formGroup]="petForm">
                             <div class="row">
                                 <div class="col-2">
                                     <b>Name:</b>
@@ -60,14 +69,30 @@
                     </div>
                 </div>
             </div>
-            @if (petDetails.owner) {
-                <div class="col-lg-6">
-                    <div class="card clickable-card shadow-sm h-100" (click)="viewOwnerDetails(petDetails.owner.ownerId)">
-                        <div class="card-header">
-                            <h3>Owner</h3>
-                        </div>
-                    
-                        <div class="card-body">
+            <div class="col-lg-6">
+                <div class="card shadow-sm" (click)="viewOwnerDetails(petDetails.owner.ownerId)" [class.clickable-card]="petDetails.owner && !showSelectOwnerSelector">
+                    <div class="card-header d-flex align-items-center gap-1">
+                        <h3>Owner</h3>
+                                @if (!showSelectOwnerSelector) {
+                                    @if (!petHasNoOwner) {
+                                        <button class="btn btn-sm btn-danger ms-auto" [disabled]="isAssigningOwner" (click)="removeOwner($event)">Remove</button>
+                                    }
+                                    <button class="btn btn-sm btn-primary" [class.ms-auto]="petHasNoOwner" (click)="openAssignOwner($event)">
+                                            Assign
+                                            @if (petDetails.owner) {
+                                                New
+                                            }
+                                            Owner
+                                    </button>
+                                }
+                                @else {
+                                    
+                                    <button class="btn btn-sm btn-secondary ms-auto" (click)="closeAssignOwner($event)">Cancel</button>
+                                }
+                    </div>
+                
+                    <div class="card-body">
+                        @if (petDetails.owner && !showSelectOwnerSelector) {
                             <b>Name:</b>
                             <p>{{ petDetails.owner.firstName }} {{ petDetails.owner.lastName }}</p>
                             
@@ -79,10 +104,50 @@
                             
                             <b>Address:</b>
                             <p>{{ petDetails.owner.address }}</p>
-                        </div>
+                        }
+                        @else {
+                            @if (!showSelectOwnerSelector) {
+                                <div class="alert alert-warning text-center">
+                                    This pet has not been assigned an owner yet.
+                                </div>
+                            }
+                            @else {
+                                <div class="d-grid gap-2">
+                                    <form [formGroup]="ownerForm">
+                                        <b>Select Owner</b>
+                                        <select class="form-select" formControlName="ownerId">
+                                            @if (isLoadingOwner) {
+                                                <option value="">Loading owners...</option>
+                                            }
+
+                                            @if (petHasNoOwner) {
+                                                <option value="">Select an owner...</option>
+                                            }
+                                            
+                                            @for (owner of owners; track owner.ownerId) {
+                                                <option [value]="owner.ownerId">
+                                                    {{ owner.firstName }} {{ owner.lastName }}
+                                                </option>
+                                            }
+                                        </select>
+                                        <button type="submit" class="btn btn-primary" (click)="updateOwner()" [disabled]="ownerForm.invalid || isLoadingOwner || isAssigningOwner">
+                                            @if (isLoadingOwner || isAssigningOwner) {
+                                                <span class="spinner-border spinner-border-sm me-2"></span>
+                                            } 
+                                            Assign
+                                        </button>
+                                    </form>
+                                    @if (petDetails.owner) {
+                                        <hr>
+                                        <b>Current Owner</b>
+                                        <span>{{ petDetails.owner.firstName }} {{ petDetails.owner.lastName }}</span>
+                                    }
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
-            }
+            </div>
         </div>
     }
 </div>

@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export interface Toast{
   id?: number;
   message: string;
-  type: 'success' | 'error' | 'info';
+  type: 'success' | 'error' | 'info' | 'warning';
   closing?: boolean;
 }
 
@@ -62,5 +62,9 @@ export class ToastService {
 
   error(message: string): void {
     this.addToast({ message, type: 'error'});
+  }
+
+  warning(message: string): void {
+    this.addToast({ message, type: 'warning'});
   }
 }

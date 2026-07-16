@@ -16,10 +16,16 @@ import { Helpers } from '../../common/helpers';
 })
 export class PetDetails {
 
-  form: any;
+  petForm: any;
+  ownerForm: any;
   petId: number | null = null;
   petDetails: any;
-  loadingState: 'loading' | 'loaded' | 'error' = 'loading';
+  owners: any[] = [];
+  showSelectOwnerSelector: boolean = false;
+  isAssigningOwner: boolean = false;
+  isLoadingOwner: boolean = false;
+  isSavingPet: boolean = false;
+  isLoadingPet: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,14 +36,17 @@ export class PetDetails {
   ) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
+    this.petForm = this.fb.group({
       name: ['', Validators.required],
       species: ['', Validators.required],
       breed: ['', Validators.required],
       birthDate: ['', Validators.required],
       weight: [0, Validators.required],
-      petId: [''],
-      ownerId: ['']
+      petId: ['']
+    });
+
+    this.ownerForm = this.fb.group({
+      ownerId: ['', Validators.required]
     });
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -49,55 +58,133 @@ export class PetDetails {
   }
 
   loadPetDetails(id: number): void {
-    this.loadingState = 'loading';
+    this.isLoadingPet = true;
 
     this.petService.getPetDetails(id).subscribe({
       next: (data) => {
         this.petDetails = data;
-        this.form.patchValue({
-          name: data.name,
-          species: data.species,
-          breed: data.breed,
-          birthDate: Helpers.formatDateForInput(data.birthDate),
-          weight: data.weight,
-          petId: data.petId,
-          ownerId: data.owner?.ownerId
+        this.petForm.patchValue({
+          name: this.petDetails.name,
+          species: this.petDetails.species,
+          breed: this.petDetails.breed,
+          birthDate: Helpers.formatDateForInput(this.petDetails.birthDate),
+          weight: this.petDetails.weight,
+          petId: this.petDetails.petId
         });
         
-        this.loadingState = 'loaded';
+        this.isLoadingPet = false;
       },
       error: (err) => {
         this.toastService.error(err.error.message);
         console.log(err);
-        this.loadingState = 'error';
+        this.isLoadingPet = false;
+      }
+    });
+  }
+  
+  loadOwners(): void {
+    this.isLoadingOwner = true;
+    
+    this.petService.getOwners().subscribe({
+      next: (data) => {
+        this.owners = data;
+        this.ownerForm.patchValue({
+          ownerId: this.petDetails.owner?.ownerId ?? ''
+        });
+
+        this.isLoadingOwner = false;
+      },
+      error: (err) => {
+        this.toastService.error(err.error.message);
+        console.error(err);
+        this.isLoadingOwner = false;
       }
     });
   }
   
   saveEditChanges(): void {
-    if (this.form.invalid) return;
+    if (this.petForm.invalid) return;
 
-    this.loadingState = 'loading';
+    this.isSavingPet = true;
 
     const dto = {
-      ...this.form.value
+      ...this.petForm.value
     }
 
-    this.petService.updatePet(this.form.value.petId, dto).subscribe({
+    this.petService.updatePet(this.petForm.value.petId, dto).subscribe({
       next: (data) => {
         this.toastService.success(`Pet ${dto.name} updated successfully!`);
         this.petDetails = data;
-        this.loadingState = 'loaded';
+        this.petForm.markAsPristine();
+        this.isSavingPet = false;
       },
       error: (err) => {
-      this.toastService.error(err.error.message);
+        this.toastService.error(err.error.message);
         console.log(err);
-        this.loadingState = 'error';
+        this.isSavingPet = false;
       }
     });
   }
 
+  openAssignOwner(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showSelectOwnerSelector = true;
+    this.loadOwners();
+  }
+
+  closeAssignOwner(event: MouseEvent): void {
+    event.stopPropagation();
+    this.ownerForm.patchValue({ ownerId: null });
+    this.showSelectOwnerSelector = false;
+    this.loadOwners();
+  }
+
   viewOwnerDetails(id: number): void {
+    if (this.showSelectOwnerSelector) return;
+    
     this.router.navigate(['owners/details', id]);
+  }
+  
+  updateOwner(): void {
+    this.isAssigningOwner = true;
+
+    this.petService.updateOwner(Number(this.petId), this.ownerForm.value.ownerId).subscribe({
+      next: (data) => {
+        this.toastService.success(`Pet owner updated successfully!`);
+        this.petDetails = data;
+        this.ownerForm.patchValue({ ownerId: null });
+        this.isAssigningOwner = false;
+        this.showSelectOwnerSelector = false;
+      },
+      error: (err) => {
+        this.toastService.warning(err.error.message);
+        console.log(err);
+        this.isAssigningOwner = false;
+      }
+    });
+  }
+  
+  get petHasNoOwner(): boolean {
+    return this.petDetails.owner === null;
+  }
+
+  removeOwner(event: MouseEvent): void {
+    event.stopPropagation();
+    this.isAssigningOwner = true;
+
+    this.petService.removeOwner(Number(this.petId)).subscribe({
+      next: (data) => {
+        this.toastService.success(`Owner successfully unassigned.`);
+        this.petDetails = data;
+        this.ownerForm.patchValue({ ownerId: null });
+        this.isAssigningOwner = false;
+        this.showSelectOwnerSelector = false;
+      },
+      error: (err) => {
+        this.toastService.warning(err.error.message);
+        console.log(err);
+        this.isAssigningOwner = false;
+      }
+    });
   }
 }

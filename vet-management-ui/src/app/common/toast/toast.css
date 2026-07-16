@@ -33,6 +33,10 @@
     background: #2196f3;
 }
 
+.warning {
+    background: #ffc107;
+}
+
 @keyframes toastPop {
     0% {
         opacity: 0;

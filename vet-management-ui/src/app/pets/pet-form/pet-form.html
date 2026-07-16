@@ -57,7 +57,7 @@
                 <option value="">Select Owner</option>
                 @for (owner of owners; track owner.ownerId) {
                     <option [value]="owner.ownerId">
-                    {{ owner.firstName }}{{ owner.lastName }}
+                    {{ owner.firstName }} {{ owner.lastName }}
                     </option>
                 }
             </select>
