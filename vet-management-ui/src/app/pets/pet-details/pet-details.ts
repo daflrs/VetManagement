@@ -6,11 +6,12 @@ import { PetService } from '../../services/pet.service';
 import { BackButton } from '../../common/back-button/back-button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Helpers } from '../../common/helpers';
+import { ConfirmModal } from '../../common/confirm-modal/confirm-modal';
 
 @Component({
   selector: 'app-pet-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, BackButton],
+  imports: [CommonModule, ReactiveFormsModule, BackButton, ConfirmModal],
   templateUrl: './pet-details.html',
   styleUrl: './pet-details.css',
 })
@@ -26,6 +27,7 @@ export class PetDetails {
   isLoadingOwner: boolean = false;
   isSavingPet: boolean = false;
   isLoadingPet: boolean = false;
+  showRemoveOwnerModal: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -168,8 +170,16 @@ export class PetDetails {
     return this.petDetails.owner === null;
   }
 
-  removeOwner(event: MouseEvent): void {
+  openRemoveOwnerModal(event: MouseEvent): void {
     event.stopPropagation();
+    this.showRemoveOwnerModal = true;
+  }
+
+  cancelRemoveOwner(): void {
+    this.showRemoveOwnerModal = false;
+  }
+
+  removeOwner(): void {
     this.isAssigningOwner = true;
 
     this.petService.removeOwner(Number(this.petId)).subscribe({
@@ -179,6 +189,7 @@ export class PetDetails {
         this.ownerForm.patchValue({ ownerId: null });
         this.isAssigningOwner = false;
         this.showSelectOwnerSelector = false;
+        this.showRemoveOwnerModal = false;
       },
       error: (err) => {
         this.toastService.warning(err.error.message);

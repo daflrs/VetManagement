@@ -75,7 +75,7 @@
                         <h3>Owner</h3>
                                 @if (!showSelectOwnerSelector) {
                                     @if (!petHasNoOwner) {
-                                        <button class="btn btn-sm btn-danger ms-auto" [disabled]="isAssigningOwner" (click)="removeOwner($event)">Remove</button>
+                                        <button class="btn btn-sm btn-danger ms-auto" [disabled]="isAssigningOwner" (click)="openRemoveOwnerModal($event)">Remove</button>
                                     }
                                     <button class="btn btn-sm btn-primary" [class.ms-auto]="petHasNoOwner" (click)="openAssignOwner($event)">
                                             Assign
@@ -151,3 +151,14 @@
         </div>
     }
 </div>
+
+<app-confirm-modal
+    [open]="showRemoveOwnerModal"
+    title="Unassign Owner"
+    message="This owner will be unassigned from this pet. Continue?"
+    confirmText="Remove"
+    confirmButtonClass="btn-danger"
+    cancelText="Go Back"
+    [isLoading]="isAssigningOwner"
+    (confirmed)="removeOwner()"
+    (cancelled)="cancelRemoveOwner()" />
