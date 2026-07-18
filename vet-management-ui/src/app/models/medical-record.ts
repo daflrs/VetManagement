@@ -5,7 +5,7 @@ export interface MedicalRecord {
     petName: string;
     appointmentId: number;
     visitDate: string;
-    symptoms: string;
+    complaint: string;
     diagnosis: string;
     treatment: string;
     weight: number;

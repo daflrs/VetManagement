@@ -8,7 +8,7 @@ export interface MedicalRecordDetailsDto {
     owner?: Owner;
     appointment: Appointment
     visitDate: string;
-    symptoms: string;
+    complaint: string;
     diagnosis: string;
     treatment: string;
     weight: string;

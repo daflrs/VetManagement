@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetManagement.Data;
 
@@ -11,9 +12,11 @@ using VetManagement.Data;
 namespace VetManagement.Migrations
 {
     [DbContext(typeof(VetManagementDbContext))]
-    partial class VetManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260718091333_RenameSymptomsToComplaintInMedicalRecord")]
+    partial class RenameSymptomsToComplaintInMedicalRecord
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

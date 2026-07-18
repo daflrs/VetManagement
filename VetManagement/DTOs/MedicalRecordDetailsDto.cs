@@ -9,7 +9,7 @@ namespace VetManagement.DTOs
         public OwnerDto? Owner { get; set; }
         public AppointmentDto? Appointment { get; set; } = null!;
         public DateTime VisitDate { get; set; }
-        public string Symptoms { get; set; } = String.Empty;
+        public string Complaint { get; set; } = String.Empty;
         public string Diagnosis { get; set; } = String.Empty;
         public string Treatment { get; set; } = String.Empty;
         public decimal Weight { get; set; }

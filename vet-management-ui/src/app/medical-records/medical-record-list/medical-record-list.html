@@ -19,7 +19,7 @@
                 <tr>
                     <th>Pet</th>
                     <th>Visit Date</th>
-                    <th>Symptoms</th>
+                    <th>Complaint</th>
                     <th>Diagnosis</th>
                     <th>Treatment</th>
                     <th>Weight</th>
@@ -32,7 +32,7 @@
                     <tr (click)="viewMedicalRecordDetails(medicalRecord.medicalRecordId)">
                         <td>{{ medicalRecord.petName }}</td>
                         <td>{{ medicalRecord.visitDate | date:'fullDate'  }}</td>
-                        <td>{{ medicalRecord.symptoms }}</td>
+                        <td>{{ medicalRecord.complaint }}</td>
                         <td>{{ medicalRecord.diagnosis }}</td>
                         <td>{{ medicalRecord.treatment }}</td>
                         <td>{{ medicalRecord.weight }}</td>

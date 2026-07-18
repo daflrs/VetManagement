@@ -28,7 +28,7 @@ namespace VetManagement.Controllers
                     AppointmentId = m.AppointmentId,
                     PetName = m.Pet.Name,
                     VisitDate = m.VisitDate,
-                    Symptoms = m.Symptoms,
+                    Complaint = m.Complaint,
                     Diagnosis = m.Diagnosis,
                     Treatment = m.Treatment,
                     Weight = m.Weight,
@@ -49,7 +49,7 @@ namespace VetManagement.Controllers
                     MedicalRecordId = m.MedicalRecordId,
                     AppointmentId = m.AppointmentId,
                     VisitDate = m.VisitDate,
-                    Symptoms = m.Symptoms,
+                    Complaint = m.Complaint,
                     Diagnosis = m.Diagnosis,
                     Treatment = m.Treatment,
                     Weight = m.Weight,
@@ -74,7 +74,7 @@ namespace VetManagement.Controllers
                 .Select(m => new MedicalRecordDetailsDto
                 {
                     VisitDate = m.VisitDate,
-                    Symptoms = m.Symptoms,
+                    Complaint = m.Complaint,
                     Diagnosis = m.Diagnosis,
                     Treatment = m.Treatment,
                     Weight = m.Weight,
@@ -133,7 +133,7 @@ namespace VetManagement.Controllers
             {
                 PetId = dto.PetId,
                 VisitDate = dto.VisitDate,
-                Symptoms = dto.Symptoms,
+                Complaint = dto.Complaint,
                 Diagnosis = dto.Diagnosis,
                 Treatment = dto.Treatment,
                 Weight = dto.Weight,
@@ -152,7 +152,7 @@ namespace VetManagement.Controllers
                     MedicalRecordId = m.MedicalRecordId,
                     AppointmentId = m.AppointmentId,
                     VisitDate = m.VisitDate,
-                    Symptoms = m.Symptoms,
+                    Complaint = m.Complaint,
                     Diagnosis = m.Diagnosis,
                     Treatment = m.Treatment,
                     Weight = m.Weight,
@@ -178,7 +178,7 @@ namespace VetManagement.Controllers
             }
 
             medicalRecord.VisitDate = dto.VisitDate;
-            medicalRecord.Symptoms = dto.Symptoms;
+            medicalRecord.Complaint = dto.Complaint;
             medicalRecord.Diagnosis = dto.Diagnosis;
             medicalRecord.Treatment = dto.Treatment;
             medicalRecord.Weight = dto.Weight;

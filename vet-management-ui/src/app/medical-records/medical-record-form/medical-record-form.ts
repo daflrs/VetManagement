@@ -36,7 +36,7 @@ export class MedicalRecordForm {
       appointmentId: [null],
       petId: ['', Validators.required],
       visitDate: ['', Validators.required],
-      symptoms: ['', Validators.required],
+      complaint: ['', Validators.required],
       diagnosis: ['', Validators.required],
       treatment: ['', Validators.required],
       weight: [0, Validators.required],
