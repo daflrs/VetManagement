@@ -15,6 +15,7 @@ export class ConfirmModal {
   confirmText = input('Confirm');
   cancelText = input('Cancel');
   confirmButtonClass = input('btn-primary');
+  isLoading = input(false);
   confirmed = output<void>();
   cancelled = output<void>();
 

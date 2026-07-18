@@ -26,3 +26,7 @@
     text-align: end;
     padding: 0;
 }
+
+.card-table {
+    max-height: 300px;
+}

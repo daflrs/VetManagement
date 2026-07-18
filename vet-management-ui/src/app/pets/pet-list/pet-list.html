@@ -1,61 +1,63 @@
 <h2>Pets</h2>
 
-<div class="d-flex">
-    @if (loadingState !== 'loading') {
-        <button type="button" class="btn btn-primary mb-3" routerLink="/create-pet">+ Create Pet Record</button>
-    }
+<div class="py-4">
+    <div class="d-flex">
+        @if (loadingState !== 'loading') {
+            <button type="button" class="btn btn-primary mb-3" routerLink="/create-pet">+ Create Pet Record</button>
+        }
 
-    @if (loadingState === 'loaded') {
-        <div class="input-group w-50 ms-auto mb-3">
-            <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="searchTerm"
-                placeholder="Search pets..." />
-                <button class="btn btn-secondary" (click)="resetSearch()">Reset</button>
-                <button class="btn btn-dark" (click)="search()">Search</button>
-        </div>
+        @if (loadingState === 'loaded') {
+            <div class="input-group w-50 ms-auto mb-3">
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="searchTerm"
+                    placeholder="Search pets..." />
+                    <button class="btn btn-secondary" (click)="resetSearch()">Reset</button>
+                    <button class="btn btn-dark" (click)="search()">Search</button>
+            </div>
+        }
+    </div>
+
+
+    @if (loadingState === 'loading') {
+        <p>Loading pets...</p>
+    }
+    @else if (loadingState === 'empty') {
+        <p>No pets found.</p>
+    }
+    @else if (loadingState === 'error') {
+        <p>Failed to load pets.</p>
+        <button type="button" class="btn btn-secondary" (click)="loadPets()">Retry</button>
+    }
+    @else {
+        <table class="table table-hover" border="1" cellpadding="8">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Species</th>
+                    <th>Breed</th>
+                    <th>Weight</th>
+                    <th>Owner</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        
+            <tbody>
+                @for (pet of pets; track pet.petId) {
+                    <tr (click)="viewPet(pet.petId)">
+                        <td>{{ pet.name }}</td>
+                        <td>{{ pet.species }}</td>
+                        <td>{{ pet.breed }}</td>
+                        <td>{{ pet.weight }} kg</td>
+                        <td>{{ pet.ownerName }}</td>
+                        <td>
+                            <label class="m-1" (click)="editPet($event, pet.petId)">✏</label>
+                            <label class="m-1" (click)="deletePet($event, pet.petId)">🗑</label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
 </div>
-
-
-@if (loadingState === 'loading') {
-    <p>Loading pets...</p>
-}
-@else if (loadingState === 'empty') {
-    <p>No pets found.</p>
-}
-@else if (loadingState === 'error') {
-    <p>Failed to load pets.</p>
-    <button type="button" class="btn btn-secondary" (click)="loadPets()">Retry</button>
-}
-@else {
-    <table class="table table-hover" border="1" cellpadding="8">
-        <thead class="table-dark">
-            <tr>
-                <th>Name</th>
-                <th>Species</th>
-                <th>Breed</th>
-                <th>Weight</th>
-                <th>Owner</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-    
-        <tbody>
-            @for (pet of pets; track pet.petId) {
-                <tr (click)="viewPet(pet.petId)">
-                    <td>{{ pet.name }}</td>
-                    <td>{{ pet.species }}</td>
-                    <td>{{ pet.breed }}</td>
-                    <td>{{ pet.weight }} kg</td>
-                    <td>{{ pet.ownerName }}</td>
-                    <td>
-                        <label class="m-1" (click)="editPet($event, pet.petId)">✏</label>
-                        <label class="m-1" (click)="deletePet($event, pet.petId)">🗑</label>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}

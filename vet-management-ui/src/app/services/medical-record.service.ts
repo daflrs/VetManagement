@@ -36,8 +36,8 @@ export class MedicalRecordService {
     return this.http.get<any>(this.apiUrlPets);
   }
 
-  createMedicalRecord(medicalRecord: any) {
-    return this.http.post(this.apiUrlMedicalRecords, medicalRecord);
+  createMedicalRecord(medicalRecord: any): Observable<MedicalRecord> {
+    return this.http.post<MedicalRecord>(this.apiUrlMedicalRecords, medicalRecord);
   }
   
   updateMedicalRecord(id: number, medicalRecord: any) {

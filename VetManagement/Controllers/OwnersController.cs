@@ -18,6 +18,29 @@ namespace VetManagement.Controllers
             _context = context;
         }
 
+        private static OwnerDetailsDto ToDetailsDto(Owner owner)
+        {
+            return new OwnerDetailsDto
+            {
+                OwnerId = owner.OwnerId,
+                FirstName = owner.FirstName,
+                LastName = owner.LastName,
+                PhoneNumber = owner.PhoneNumber,
+                Email = owner.Email,
+                Address = owner.Address,
+                Pets = owner.Pets.Select(p => new PetDto
+                {
+                    PetId = p.PetId,
+                    Name = p.Name,
+                    Species = p.Species,
+                    Breed = p.Breed,
+                    BirthDate = p.BirthDate,
+                    Weight = p.Weight
+                })
+                .ToList()
+            };
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OwnerDto>>> GetOwners()
         {
@@ -228,6 +251,39 @@ namespace VetManagement.Controllers
                 .FirstOrDefaultAsync();
 
             return Ok(owner);
+        }
+
+        [HttpDelete("{id}/pet")]
+        public async Task<ActionResult<OwnerDetailsDto>> RemovePet(int id, RemovePetFromOwnerDto dto)
+        {
+            var owner = await _context.Owners.FindAsync(id);
+
+            if (owner == null)
+            {
+                return ApiResponses.NotFound($"Owner with {id} not found.");
+            }
+
+            var pet = await _context.Pets.FindAsync(dto.PetId);
+
+            if (pet == null)
+            {
+                return ApiResponses.NotFound($"Pet with {dto.PetId} not found.");
+            }
+
+            if (pet.OwnerId != owner.OwnerId)
+            {
+                return ApiResponses.BadRequest("This pet is not assigned to this owner.");
+            }
+
+            pet.OwnerId = null;
+
+            await _context.SaveChangesAsync();
+
+            await _context.Entry(owner)
+                .Collection(o => o.Pets)
+                .LoadAsync();
+
+            return Ok(ToDetailsDto(owner));
         }
 
         [HttpDelete("{id}")]

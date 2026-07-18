@@ -17,7 +17,7 @@ import { ConfirmModal } from '../../common/confirm-modal/confirm-modal';
 export class MedicalRecordForm {
 
   form: any;
-  loading: boolean = false;
+  isLoading: boolean = false;
   appointments: any[] = [];
   pets: any[] = [];
   medicalRecordId: number | null = null;
@@ -110,7 +110,7 @@ export class MedicalRecordForm {
       return;
     }
     
-    this.loading = true;
+    this.isLoading = true;
     
     if (this.medicalRecordId) {
       // Update
@@ -122,7 +122,7 @@ export class MedicalRecordForm {
         error: (err) => {
           this.toastService.error(err.error.message);
           console.error(err);
-          this.loading = false;
+          this.isLoading = false;
         }
       });
     } else {
@@ -132,18 +132,20 @@ export class MedicalRecordForm {
   }
 
   createMedicalRecord(): void {
+      this.isLoading = true;
+
       this.medicalRecordService.createMedicalRecord(this.form.value).subscribe({
-        next: () => {
+        next: (data) => {
           this.toastService.success(`Medical record created successfully!`);
           this.form.reset();
           this.form.patchValue({ appointmentId: '' });
-          this.loading = false;
-          this.router.navigate(['/medical-records']);
+          this.isLoading = false;
+          this.router.navigate(['medical-records/details', data.medicalRecordId]);
         },
         error: (err) => {
           this.toastService.error(err.error.message);
           console.error(err);
-          this.loading = false;
+          this.isLoading = false;
         }
       });
   }

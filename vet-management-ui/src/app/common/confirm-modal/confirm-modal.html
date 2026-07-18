@@ -11,7 +11,12 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="onCancel()">{{ cancelText() }}</button>
-            <button type="button" class="btn" [class]="confirmButtonClass()" (click)="onConfirm()">{{ confirmText() }}</button>
+            <button type="button" class="btn" [disabled]="isLoading()" [class]="confirmButtonClass()" (click)="onConfirm()">
+              @if (isLoading()) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+              }
+              {{ confirmText() }}
+            </button>
           </div>
         </div>
       </div>

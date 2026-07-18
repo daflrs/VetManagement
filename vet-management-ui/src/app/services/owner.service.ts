@@ -48,4 +48,13 @@ export class OwnerService {
         petIds
       });
   }
+
+  removePetFromOwner(id: number, petId: number): Observable<OwnerDetailsDto> {
+    return this.http.delete<OwnerDetailsDto>(`${this.apiUrlOwners}/${id}/pet`, 
+      { 
+        body: {
+          petId 
+        }
+      });
+  }
 }

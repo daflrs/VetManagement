@@ -5,23 +5,28 @@ import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast.service';
 import { BackButton } from '../../common/back-button/back-button';
 import { PetService } from '../../services/pet.service';
+import { ConfirmModal } from '../../common/confirm-modal/confirm-modal';
 
 @Component({
   selector: 'app-owner-details',
   standalone: true,
-  imports: [CommonModule, BackButton],
+  imports: [CommonModule, BackButton, ConfirmModal],
   templateUrl: './owner-details.html',
   styleUrl: './owner-details.css',
 })
 export class OwnerDetails {
 
   ownerId: number | null = null;
+  petIdToRemove: number | null = null;
+  petNameToRemove: string | null = null;
   ownerDetails: any;
   pets: any[] = [];
   selectedPets: any[] = [];
   showAddPetDropdown: boolean = false;
   showAddPetToOwnerSelector: boolean = false;
   petsLoaded: boolean = false;
+  showRemovePetModal: boolean = false;
+  isRemovingPet: boolean = false;
   loadingState: 'loading' | 'loaded' | 'error' = 'loading';
 
   constructor(
@@ -144,4 +149,37 @@ export class OwnerDetails {
       this.selectedPets.push(pet);
     }
   }
+  
+  openRemovePetModal(event: MouseEvent, petId: number, petName: string): void {
+    event.stopPropagation();
+    this.petIdToRemove = petId;
+    this.petNameToRemove = petName;
+    this.showRemovePetModal = true;
+  }
+
+  cancelRemovePet(): void {
+    this.showRemovePetModal = false;
+  }
+
+  removePetFromOwner(): void {
+    if (this.petIdToRemove === null) return;
+
+    this.isRemovingPet = true;
+
+    this.ownerService.removePetFromOwner(Number(this.ownerId), this.petIdToRemove).subscribe({
+      next: (data) => {
+        this.toastService.success(`Pet successfully removed.`);
+        this.ownerDetails = data;
+        this.petIdToRemove = null;
+        this.isRemovingPet = false;
+        this.showRemovePetModal = false;
+      },
+      error: (err) => {
+        this.toastService.error(err.error.message);
+        console.log(err);
+        this.isRemovingPet = false;
+      }
+    });
+  }
+
 }

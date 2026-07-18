@@ -86,7 +86,7 @@
             <textarea class="form-control" formControlName="notes"></textarea>
         </div>
     
-        <button type="submit" class="btn btn-primary" [disabled]="loading">
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
             {{ isEditMode ? 'Update' : 'Create' }} Medical Record
         </button>
     </form>
