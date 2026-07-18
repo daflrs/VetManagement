@@ -1,6 +1,4 @@
-<app-back-button />
-
-<div class="container py-4">
+<app-page-layout title="Appointments" [backButton]="true" [isSubPage]="true">
     @if (isLoading) {
         <app-loading-spinner message="Loading appointment details..." />
     }
@@ -123,4 +121,4 @@
             </div>
         </div>
     }
-</div>
+</app-page-layout>

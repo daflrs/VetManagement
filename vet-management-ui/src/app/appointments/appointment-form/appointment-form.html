@@ -1,60 +1,58 @@
-<app-back-button />
-
-<div class="py-4 w-50">
-    <h2 class="mb-4">{{ isEditMode ? 'Update' : 'Create' }} Appointment</h2>
-    
-    <form [formGroup]="form" (ngSubmit)="submit()">
-        
-        <div class="input-group mb-3">
-            <label class="input-group-text">
-                Type
-                <span class="text-danger ms-1">*</span>
-            </label>
-            <select id="inputGroupSelect1" class="form-select" (change)="onTypeChange()" formControlName="type">
-                    <option value="">Select Type</option>
-                    
-                    @for (type of types; track type.value) {
-                        <option [value]="type.value">
-                            {{ type.label }}
-                        </option>
-                    }
-                </select>
-        </div>
-        
-        <div class="input-group mb-3">
-            <label class="input-group-text">
-                Pet
-                <span class="text-danger ms-1">*</span>
-            </label>
-            <select id="inputGroupSelect1" class="form-select" (change)="onTypeChange()" formControlName="petId">
-            <option value="">Select Pet</option>
+<app-page-layout title="Appointments" subtitle="Create Appointment" [backButton]="true">
+    <div class="py-4 w-50">
+        <form [formGroup]="form" (ngSubmit)="submit()">
             
-            @for (pet of pets; track pet.petId) {
-                <option [value]="pet.petId">
-                    {{ pet.name }}
-                </option>
-            }
-            </select>
-        </div>
-        
-        <div class="input-group mb-3">
-            <label class="input-group-text">
-                Reason
-                <span class="text-danger ms-1">*</span>
-            </label>
-            <input class="form-control" formControlName="reason" />
-        </div>
-        
-        <div class="input-group mb-3">
-            <label class="input-group-text">
-                Appointment Date
-                <span class="text-danger ms-1">*</span>
-            </label>
-            <input type="date" class="form-control" formControlName="appointmentDate" />
-        </div>
-        
-        <button type="submit" class="btn btn-primary" [disabled]="loading">
-            {{ isEditMode ? 'Update' : 'Create' }} Appointment
-        </button>
-    </form>
-</div>
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Type
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <select id="inputGroupSelect1" class="form-select" (change)="onTypeChange()" formControlName="type">
+                        <option value="">Select Type</option>
+                        
+                        @for (type of types; track type.value) {
+                            <option [value]="type.value">
+                                {{ type.label }}
+                            </option>
+                        }
+                    </select>
+            </div>
+            
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Pet
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <select id="inputGroupSelect1" class="form-select" (change)="onTypeChange()" formControlName="petId">
+                <option value="">Select Pet</option>
+                
+                @for (pet of pets; track pet.petId) {
+                    <option [value]="pet.petId">
+                        {{ pet.name }}
+                    </option>
+                }
+                </select>
+            </div>
+            
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Reason
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <input class="form-control" formControlName="reason" />
+            </div>
+            
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Appointment Date
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <input type="date" class="form-control" formControlName="appointmentDate" />
+            </div>
+            
+            <button type="submit" class="btn btn-primary" [disabled]="loading">
+                {{ isEditMode ? 'Update' : 'Create' }} Appointment
+            </button>
+        </form>
+    </div>
+</app-page-layout>

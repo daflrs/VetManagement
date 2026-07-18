@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MedicalRecordService } from '../../services/medical-record.service';
-import { BackButton } from '../../common/back-button/back-button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppointmentTypePipe } from '../../common/pipes/appointment-type.pipe.ts/appointment-type.pipe.ts';
 import { AppointmentStatusBadge } from '../../common/appointment-status-badge/appointment-status-badge';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-medical-record-details',
   standalone: true,
-  imports: [CommonModule, BackButton, AppointmentTypePipe, AppointmentStatusBadge],
+  imports: [CommonModule, AppointmentTypePipe, AppointmentStatusBadge, PageLayout],
   templateUrl: './medical-record-details.html',
   styleUrl: './medical-record-details.css',
 })

@@ -7,11 +7,12 @@ import { Router, RouterLink } from '@angular/router';
 import { AppointmentStatus } from '../../models/appointment-status';
 import { AppointmentTypePipe } from '../../common/pipes/appointment-type.pipe.ts/appointment-type.pipe.ts';
 import { AppointmentStatusBadge } from '../../common/appointment-status-badge/appointment-status-badge';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, AppointmentTypePipe, AppointmentStatusBadge],
+  imports: [CommonModule, RouterLink, AppointmentTypePipe, AppointmentStatusBadge, PageLayout],
   templateUrl: './appointment-list.html',
   styleUrl: './appointment-list.css',
 })

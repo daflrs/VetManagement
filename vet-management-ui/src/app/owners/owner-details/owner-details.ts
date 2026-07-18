@@ -3,14 +3,13 @@ import { OwnerService } from '../../services/owner.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast.service';
-import { BackButton } from '../../common/back-button/back-button';
-import { PetService } from '../../services/pet.service';
 import { ConfirmModal } from '../../common/confirm-modal/confirm-modal';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-owner-details',
   standalone: true,
-  imports: [CommonModule, BackButton, ConfirmModal],
+  imports: [CommonModule, ConfirmModal, PageLayout],
   templateUrl: './owner-details.html',
   styleUrl: './owner-details.css',
 })

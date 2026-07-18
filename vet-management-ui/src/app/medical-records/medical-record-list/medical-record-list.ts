@@ -4,11 +4,12 @@ import { ToastService } from '../../services/toast.service';
 import { Router, RouterLink } from '@angular/router';
 import { MedicalRecordService } from '../../services/medical-record.service';
 import { MedicalRecord } from '../../models/medical-record';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-medical-record-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, PageLayout],
   templateUrl: './medical-record-list.html',
   styleUrl: './medical-record-list.css',
 })

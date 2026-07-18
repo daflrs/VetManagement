@@ -3,15 +3,15 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { PetService } from '../../services/pet.service';
-import { BackButton } from '../../common/back-button/back-button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Helpers } from '../../common/helpers';
 import { ConfirmModal } from '../../common/confirm-modal/confirm-modal';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-pet-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, BackButton, ConfirmModal],
+  imports: [CommonModule, ReactiveFormsModule, ConfirmModal, PageLayout],
   templateUrl: './pet-details.html',
   styleUrl: './pet-details.css',
 })

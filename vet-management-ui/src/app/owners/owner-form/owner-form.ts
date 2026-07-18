@@ -4,12 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OwnerService } from '../../services/owner.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '../../services/toast.service';
-import { BackButton } from '../../common/back-button/back-button';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-owner-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, BackButton],
+  imports: [CommonModule, ReactiveFormsModule, PageLayout],
   templateUrl: './owner-form.html',
   styleUrl: './owner-form.css',
 })

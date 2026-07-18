@@ -1,6 +1,4 @@
-<app-back-button />
-
-<div class="container py-4">
+<app-page-layout title="Medical Records" [backButton]="true" [isSubPage]="true">
     @if (medicalRecordDetails) {
         <div class="row mb-4">
             <div class="col">
@@ -99,20 +97,25 @@
                         <b>Owner</b>
                     </div>
                     <div class="card-body">
-                        <b>Name:</b>
-                        <p>{{ medicalRecordDetails.owner.firstName }} {{ medicalRecordDetails.owner.lastName }}</p>
-                        
-                        <b>Phone:</b>
-                        <p>{{ medicalRecordDetails.owner.phoneNumber }}</p>
-                        
-                        <b>Email:</b>
-                        <p>{{ medicalRecordDetails.owner.email }}</p>
-                        
-                        <b>Address:</b>
-                        <p>{{ medicalRecordDetails.owner.address }}</p>
+                        @if (medicalRecordDetails.owner) {
+                            <b>Name:</b>
+                            <p>{{ medicalRecordDetails.owner.firstName }} {{ medicalRecordDetails.owner.lastName }}</p>
+                            
+                            <b>Phone:</b>
+                            <p>{{ medicalRecordDetails.owner.phoneNumber }}</p>
+                            
+                            <b>Email:</b>
+                            <p>{{ medicalRecordDetails.owner.email }}</p>
+                            
+                            <b>Address:</b>
+                            <p>{{ medicalRecordDetails.owner.address }}</p>
+                        }
+                        @else {
+                            <span>This pet has no owner.</span>
+                        }
                     </div>
                 </div>
             </div>     
         </div>
     }
-</div>
+</app-page-layout>

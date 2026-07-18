@@ -1,63 +1,63 @@
-<h2>Appointments</h2>
-
-@if (loadingState !== 'loading') {
-    <button type="button" class="btn btn-primary mb-3" routerLink="/create-appointment">+ Create Appointment</button>
-}
-
-@if (loadingState === 'loading') {
-    <p>Loading appointments...</p>
-}
-@else if (loadingState === 'empty') {
-    <p>No appointments found.</p>
-}
-@else if (loadingState === 'error') {
-    <p>Failed to load appointments.</p>
-    <button type="button" class="btn btn-secondary" (click)="loadAppointments()">Retry</button>
-}
-@else {
-    <table class="table table-hover" border="1" cellpadding="8">
-        <thead class="table-dark">
-            <tr>
-                <th>Appointment Date</th>
-                <th>Pet</th>
-                <th>Type</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (appointment of appointments; track appointment.appointmentId) {
-                <tr (click)="viewAppointmentDetails(appointment.appointmentId)">
-                    <td>{{ appointment.appointmentDate | date: 'fullDate' }}</td>
-                    <td>{{ appointment.petName }}</td>
-                    <td>{{ appointment.type | appointmentType }}</td>
-                    <td>{{ appointment.reason }}</td>
-                    <td>
-                        <app-appointment-status-badge [status]="appointment.status" />
-                    </td>
-                    <td>
-                        @if (appointment.medicalRecordId) {
+<app-page-layout title="Appointments">
+    @if (loadingState !== 'loading') {
+        <button type="button" class="btn btn-primary mb-3" routerLink="/create-appointment">+ Create Appointment</button>
+    }
+    
+    @if (loadingState === 'loading') {
+        <p>Loading appointments...</p>
+    }
+    @else if (loadingState === 'empty') {
+        <p>No appointments found.</p>
+    }
+    @else if (loadingState === 'error') {
+        <p>Failed to load appointments.</p>
+        <button type="button" class="btn btn-secondary" (click)="loadAppointments()">Retry</button>
+    }
+    @else {
+        <table class="table table-hover" border="1" cellpadding="8">
+            <thead class="table-dark">
+                <tr>
+                    <th>Appointment Date</th>
+                    <th>Pet</th>
+                    <th>Type</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (appointment of appointments; track appointment.appointmentId) {
+                    <tr (click)="viewAppointmentDetails(appointment.appointmentId)">
+                        <td>{{ appointment.appointmentDate | date: 'fullDate' }}</td>
+                        <td>{{ appointment.petName }}</td>
+                        <td>{{ appointment.type | appointmentType }}</td>
+                        <td>{{ appointment.reason }}</td>
+                        <td>
+                            <app-appointment-status-badge [status]="appointment.status" />
+                        </td>
+                        <td>
+                            @if (appointment.medicalRecordId) {
+                                <button
+                                type="button"
+                                class="btn btn-outline-primary btn-sm me-3"
+                                (click)="viewMedicalRecordDetails(appointment.medicalRecordId)">
+                                View Medical Record
+                            </button>
+                        }
+                        @else if (appointment.status === AppointmentStatus.Completed) {
                             <button
                             type="button"
-                            class="btn btn-outline-primary btn-sm me-3"
-                            (click)="viewMedicalRecordDetails(appointment.medicalRecordId)">
-                            View Medical Record
+                            class="btn btn-outline-secondary btn-sm me-3"
+                            (click)="createMedicalRecordDetails(appointment.appointmentId)">
+                            Create Medical Record
                         </button>
                     }
-                    @else if (appointment.status === AppointmentStatus.Completed) {
-                        <button
-                        type="button"
-                        class="btn btn-outline-secondary btn-sm me-3"
-                        (click)="createMedicalRecordDetails(appointment.appointmentId)">
-                        Create Medical Record
-                    </button>
+                    <label class="m-1" (click)="editAppointment($event, appointment.appointmentId)">✏</label>
+                    <label class="m-1" (click)="deleteAppointment($event, appointment.appointmentId)">🗑</label>
+                        </td>
+                    </tr>
                 }
-                <label class="m-1" (click)="editAppointment($event, appointment.appointmentId)">✏</label>
-                <label class="m-1" (click)="deleteAppointment($event, appointment.appointmentId)">🗑</label>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+            </tbody>
+        </table>
+    }
+</app-page-layout>

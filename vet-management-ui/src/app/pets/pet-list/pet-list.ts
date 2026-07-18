@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-pet-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, PageLayout],
   templateUrl: './pet-list.html',
   styleUrl: './pet-list.css',
 })

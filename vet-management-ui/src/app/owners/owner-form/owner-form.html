@@ -1,52 +1,50 @@
-<app-back-button />
-
-<div class="py-4 w-50">
-    <h2 class="mb-4">{{ isEditMode ? 'Update' : 'Create' }} Owner Record</h2>
-    
-    <form [formGroup]="form" (ngSubmit)="submit()">
-    
-        <div class="input-group mb-3">
-            <label class="input-group-text">
-                First Name
-                <span class="text-danger ms-1">*</span>
-            </label>
-            <input class="form-control" formControlName="firstName" />
-        </div>
+<app-page-layout title="Owners" subtitle="Create Owner" [backButton]="true">
+    <div class="py-4 w-50">
+        <form [formGroup]="form" (ngSubmit)="submit()">
         
-        <div class="input-group mb-3">
-            <label class="input-group-text">
-                Last Name
-                <span class="text-danger ms-1">*</span>
-            </label>
-            <input class="form-control" formControlName="lastName" />
-        </div>
-        
-        <div class="input-group mb-3">
-            <label class="input-group-text">
-                Phone Number
-                <span class="text-danger ms-1">*</span>
-            </label>
-            <input class="form-control" formControlName="phoneNumber" />
-        </div>
-        
-        <div class="input-group mb-3">
-            <label class="input-group-text">
-                Email
-                <span class="text-danger ms-1">*</span>
-            </label>
-            <input class="form-control" formControlName="email" />
-        </div>
-        
-        <div class="input-group mb-3">
-            <label class="input-group-text">
-                Address
-                <span class="text-danger ms-1">*</span>
-            </label>
-            <input class="form-control" formControlName="address" />
-        </div>
-        
-        <button type="submit" class="btn btn-primary" [disabled]="loading">
-            {{ isEditMode ? 'Update' : 'Create' }} Owner Record
-        </button>
-    </form>
-</div>
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    First Name
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <input class="form-control" formControlName="firstName" />
+            </div>
+            
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Last Name
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <input class="form-control" formControlName="lastName" />
+            </div>
+            
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Phone Number
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <input class="form-control" formControlName="phoneNumber" />
+            </div>
+            
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Email
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <input class="form-control" formControlName="email" />
+            </div>
+            
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Address
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <input class="form-control" formControlName="address" />
+            </div>
+            
+            <button type="submit" class="btn btn-primary" [disabled]="loading">
+                {{ isEditMode ? 'Update' : 'Create' }} Owner Record
+            </button>
+        </form>
+    </div>
+</app-page-layout>

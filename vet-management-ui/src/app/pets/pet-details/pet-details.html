@@ -1,6 +1,4 @@
-<app-back-button />
-
-<div class="container py-4">
+<app-page-layout title="Pets" [backButton]="true" [isSubPage]="true">
     @if (petDetails) {
         <div class="row g-4 mb-5">
             
@@ -150,7 +148,7 @@
             </div>
         </div>
     }
-</div>
+</app-page-layout>
 
 <app-confirm-modal
     [open]="showRemoveOwnerModal"

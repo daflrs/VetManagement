@@ -1,0 +1,26 @@
+<div class="m-4">
+    @if (smallFont()) {
+        <span class="h5">{{ title() }}</span>
+        @if (subtitle()) {
+            <i class="h6 bi bi-arrow-right px-2"></i>
+            <span class="h5">{{ subtitle() }}</span>
+        }
+    }
+    @else {
+        <span class="h3">{{ title() }}</span>
+        @if (subtitle()) {
+            <i class="h5 bi bi-arrow-right px-2"></i>
+            <span class="h3 text-decoration-underline">{{ subtitle() }}</span>
+        }
+    }
+</div>
+<div class="page-content border-top">
+    <div class="m-4">
+        @if (backButton()) {
+                <app-back-button />
+        }
+        <div [class.container]="isSubPage()">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.page-content {
+    position: relative;
+    flex: 1;
+    overflow: auto;
+    background-color: whitesmoke;
+    border-top: 1;
+}
+
+@media (min-width: 1700px) {
+    .back-button-wrapper {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        margin-bottom: 0;
+    }
+}

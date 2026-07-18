@@ -4,13 +4,13 @@ import { ToastService } from '../../services/toast.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MedicalRecordService } from '../../services/medical-record.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BackButton } from '../../common/back-button/back-button';
 import { ConfirmModal } from '../../common/confirm-modal/confirm-modal';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-medical-record-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, BackButton, ConfirmModal],
+  imports: [CommonModule, ReactiveFormsModule, ConfirmModal, PageLayout],
   templateUrl: './medical-record-form.html',
   styleUrl: './medical-record-form.css',
 })

@@ -4,11 +4,12 @@ import { OwnerService } from '../../services/owner.service';
 import { Router, RouterLink } from '@angular/router';
 import { Owner } from '../../models/owner';
 import { ToastService } from '../../services/toast.service';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-owner-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, PageLayout],
   templateUrl: './owner-list.html',
   styleUrl: './owner-list.css',
 })

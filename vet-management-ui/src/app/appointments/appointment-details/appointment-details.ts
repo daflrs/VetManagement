@@ -3,16 +3,16 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { AppointmentService } from '../../services/appointment.service';
-import { BackButton } from '../../common/back-button/back-button';
 import { AppointmentTypePipe } from '../../common/pipes/appointment-type.pipe.ts/appointment-type.pipe.ts';
 import { AppointmentStatus } from '../../models/appointment-status';
 import { AppointmentStatusBadge } from '../../common/appointment-status-badge/appointment-status-badge';
 import { AppointmentWorkflowAction } from '../../models/appointment-workflow-action';
 import { LoadingSpinner } from '../../common/loading-spinner/loading-spinner';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-appointment-details',
-  imports: [CommonModule, BackButton, AppointmentTypePipe, AppointmentStatusBadge, LoadingSpinner],
+  imports: [CommonModule, AppointmentTypePipe, AppointmentStatusBadge, LoadingSpinner, PageLayout],
   templateUrl: './appointment-details.html',
   styleUrl: './appointment-details.css',
 })

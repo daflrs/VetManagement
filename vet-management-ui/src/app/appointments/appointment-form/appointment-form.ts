@@ -6,12 +6,12 @@ import { CommonModule } from '@angular/common';
 import { AppointmentService } from '../../services/appointment.service';
 import { Appointment } from '../../models/appointment';
 import { AppointmentStatus } from '../../models/appointment-status';
-import { BackButton } from '../../common/back-button/back-button';
 import { AppointmentType } from '../../models/appointment-type';
+import { PageLayout } from '../../common/page-layout/page-layout';
 
 @Component({
   selector: 'app-appointment-form',
-  imports: [CommonModule, ReactiveFormsModule, BackButton],
+  imports: [CommonModule, ReactiveFormsModule, PageLayout],
   templateUrl: './appointment-form.html',
   styleUrl: './appointment-form.css',
 })
