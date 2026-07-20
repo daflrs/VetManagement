@@ -89,11 +89,6 @@ export class PetList implements OnInit{
     });
   }
 
-  editPet(event: MouseEvent, id: number): void {
-    event?.stopPropagation();
-    this.router.navigate(['/pets/edit', id]);
-  }
-
   viewPet(id: number): void {
     this.router.navigate(['/pets/details', id]);
   }

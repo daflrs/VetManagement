@@ -3,18 +3,64 @@
         <div class="row g-6">
             <div class="col-lg-6 py-4">
                 <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h2>{{ ownerDetails.firstName }} {{ ownerDetails.lastName }}</h2>
+                    <div class="card-header d-flex align-items-center">
+                        <h3>Owner</h3>
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-primary ms-auto"
+                            [disabled]="!ownerForm.dirty || isLoadingOwner || isSavingOwner"
+                            (click)="saveEditChanges()">
+                                @if (isLoadingOwner || isSavingOwner) {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                } 
+                                Save
+                        </button>
                     </div>
                     <div class="card-body">
-                        <b>Phone:</b>
-                        <p>{{ ownerDetails.phoneNumber }}</p>
-                        
-                        <b>E-mail:</b>
-                        <p>{{ ownerDetails.email }}</p>
-                        
-                        <b>Location:</b>
-                        <p>{{ ownerDetails.address }}</p>
+                        <form [formGroup]="ownerForm">
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Name:</b>
+                                </div>
+                                <div class="col">
+                                    <div class="row gx-2">
+                                        <div class="col">
+                                            <input class="form-control" formControlName="firstName">
+                                        </div>
+                                        <div class="col">
+                                            <input class="form-control" formControlName="lastName">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Phone:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" formControlName="phoneNumber">
+                                </div>
+                            </div>
+                                
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Email:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" formControlName="email">
+                                </div>
+                            </div>
+                                
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Address:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" formControlName="address">
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -22,7 +68,7 @@
             <div class="col-lg-6 py-4">
                 <div class="card shadow-sm">
                     <div class="card-header">
-                        <h2>Pets:</h2>
+                        <h3>Pets:</h3>
                     </div>
                     <div class="card-body d-grid gap-3">
 

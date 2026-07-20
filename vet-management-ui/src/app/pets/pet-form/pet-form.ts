@@ -49,28 +49,6 @@ export class PetForm {
         ownerId: this.preselectedOwnerId
       });
     }
-
-    const id = this.route.snapshot.paramMap.get('id');
-
-    if (id) {
-      this.petId = +id;
-      this.loadPet(this.petId);
-    }
-  }
-
-  loadPet(id: number): void {
-    this.petService.getPet(id).subscribe({
-      next: (pet: any) => {
-        this.form.patchValue(({
-          ...pet,
-          birthDate: pet.birthDate.split('T')[0]
-        }));
-      },
-      error: (err) => {
-        this.toastService.error(err.error.message);
-        console.log(err);
-      }
-    });
   }
 
   loadOwners(): void {
@@ -97,42 +75,22 @@ export class PetForm {
         : null
     }
 
-    if (this.petId) {
-      // Update
-      this.petService.updatePet(this.petId, dto).subscribe({
-        next: () => {
-          this.toastService.success(`Pet ${dto.name} updated successfully!`);
-          this.router.navigate(['/pets']);
-        },
-        error: (err) => {
-        this.toastService.error(err.error.message);
-          console.log(err);
-          this.loading = false;
-        }
-      });
-    } else {
-      // Create
-      this.petService.createPet(dto).subscribe({
-        next: () => {
-          this.toastService.success(`Pet ${dto.name} created successfully!`);
-          this.form.reset();
-          this.form.patchValue({ ownerId: '' });
-          this.loading = false;
-          this.router.navigate(['/pets']);
-        },
-        error: (err) => {
-        this.toastService.error(err.error.message);
-          console.error(err);
-          this.loading = false;
-        }
-      });
-    }
+    this.petService.createPet(dto).subscribe({
+      next: () => {
+        this.toastService.success(`Pet ${dto.name} created successfully!`);
+        this.form.reset();
+        this.form.patchValue({ ownerId: '' });
+        this.loading = false;
+        this.router.navigate(['/pets']);
+      },
+      error: (err) => {
+      this.toastService.error(err.error.message);
+        console.error(err);
+        this.loading = false;
+      }
+    });
   }
   
-  get isEditMode(): boolean {
-    return this.petId !== null;
-  }
-
   get ownerIsPreselected(): boolean {
     return this.preselectedOwnerId !== null
       && Number(this.form.value.ownerId) === this.preselectedOwnerId;

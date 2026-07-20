@@ -179,7 +179,7 @@ namespace VetManagement.Controllers
 
             if (owner == null)
             {
-                return NotFound();
+                return ApiResponses.NotFound($"Owner with {id} not found.");
             }
 
             owner.FirstName = dto.FirstName;
@@ -190,7 +190,11 @@ namespace VetManagement.Controllers
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            await _context.Entry(owner)
+                .Collection(o => o.Pets)
+                .LoadAsync();
+
+            return Ok(ToDetailsDto(owner));
         }
 
         [HttpPut("{id}/add-pets")]

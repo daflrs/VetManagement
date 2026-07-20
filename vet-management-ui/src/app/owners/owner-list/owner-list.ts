@@ -61,11 +61,6 @@ export class OwnerList {
     });
   }
 
-  editOwner(event: MouseEvent, id: number): void {
-    event?.stopPropagation();
-    this.router.navigate(['owners/edit', id]);
-  }
-  
   viewOwnerDetails(id: number): void {
     this.router.navigate(['owners/details', id]);
   }

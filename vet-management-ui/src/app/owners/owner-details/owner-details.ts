@@ -5,16 +5,18 @@ import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast.service';
 import { ConfirmModal } from '../../common/confirm-modal/confirm-modal';
 import { PageLayout } from '../../common/page-layout/page-layout';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-owner-details',
   standalone: true,
-  imports: [CommonModule, ConfirmModal, PageLayout],
+  imports: [CommonModule, ReactiveFormsModule, ConfirmModal, PageLayout],
   templateUrl: './owner-details.html',
   styleUrl: './owner-details.css',
 })
 export class OwnerDetails {
 
+  ownerForm: any;
   ownerId: number | null = null;
   petIdToRemove: number | null = null;
   petNameToRemove: string | null = null;
@@ -27,8 +29,11 @@ export class OwnerDetails {
   showRemovePetModal: boolean = false;
   isRemovingPet: boolean = false;
   loadingState: 'loading' | 'loaded' | 'error' = 'loading';
+  isSavingOwner: boolean = false;
+  isLoadingOwner: boolean = false;
 
   constructor(
+    private fb: FormBuilder,
     private ownerService: OwnerService,
     private route: ActivatedRoute,
     private toastService: ToastService,
@@ -36,6 +41,14 @@ export class OwnerDetails {
   ) {}
 
   ngOnInit(): void {
+    this.ownerForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      email: ['', Validators.required],
+      address: ['', Validators.required]
+    });
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
@@ -45,17 +58,48 @@ export class OwnerDetails {
   }
 
   loadOwnerDetails(id: number): void {
-    this.loadingState = 'loading';
+    this.isLoadingOwner = true;
 
     this.ownerService.getOwnerDetails(id).subscribe({
       next: (data) => {
         this.ownerDetails = data;
-        this.loadingState = 'loaded';
+        this.ownerForm.patchValue({
+          firstName: this.ownerDetails.firstName,
+          lastName: this.ownerDetails.lastName,
+          phoneNumber: this.ownerDetails.phoneNumber,
+          email: this.ownerDetails.email,
+          address: this.ownerDetails.address
+        });
+        this.isLoadingOwner = false;
       },
       error: (err) => {
         this.toastService.error(err.error.message);
         console.log(err);
-        this.loadingState = 'error';
+        this.isLoadingOwner = false;
+      }
+    });
+  }
+
+  saveEditChanges(): void {
+    if (this.ownerForm.invalid) return;
+
+    this.isSavingOwner = true;
+
+    const dto = {
+      ...this.ownerForm.value
+    }
+
+    this.ownerService.updateOwner(Number(this.ownerId), dto).subscribe({
+      next: (data) => {
+        this.toastService.success(`Owner ${dto.firstName} ${dto.lastName} updated successfully!`);
+        this.ownerDetails = data;
+        this.ownerForm.markAsPristine();
+        this.isSavingOwner = false;
+      },
+      error: (err) => {
+        this.toastService.error(err.error.message);
+        console.log(err);
+        this.isSavingOwner = false;
       }
     });
   }
