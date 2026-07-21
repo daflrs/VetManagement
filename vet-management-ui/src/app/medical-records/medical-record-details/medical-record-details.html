@@ -1,121 +1,195 @@
 <app-page-layout title="Medical Records" [backButton]="true" [isSubPage]="true">
     @if (medicalRecordDetails) {
-        <div class="row mb-4">
-            <div class="col">
-                @if (medicalRecordDetails.appointment) {
-                    <div class="card clickable-card shadow-sm h-100" (click)="viewAppointmentDetails(medicalRecordDetails.appointment.appointmentId)">
-                        <div class="card-header">
-                            <b>Appointment</b>
+        <div class="d-grid gap-4">
+            <div class="row">
+                <div class="col">
+                    @if (medicalRecordDetails.appointment) {
+                        <div class="card clickable-card shadow-sm" (click)="viewAppointmentDetails(medicalRecordDetails.appointment.appointmentId)">
+                            <div class="card-header">
+                                <b>Appointment</b>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <b>Appointment Date:</b>
+                                        <p>{{ medicalRecordDetails.appointment.appointmentDate | date:'fullDate' }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <b>Type:</b>
+                                        <p>{{ medicalRecordDetails.appointment.type | appointmentType }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <b>Reason:</b>
+                                        <p>{{ medicalRecordDetails.appointment.reason }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <b>Status:</b>
+                                        <p>
+                                            <app-appointment-status-badge [status]="medicalRecordDetails.appointment.status" />
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @else {
+                        <div class="card shadow-sm bg-secondary position-relative py-4">
+                            <span class="position-absolute top-50 start-50 translate-middle text-white fs-5">No appointment</span>
+                        </div>
+                    }
+                </div>            
+            </div>
+            <div class="row gy-4">
+
+                <div class="col-lg-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header d-flex align-items-center">
+                            <b>Medical Record</b>
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-primary ms-auto"
+                                [disabled]="!medicalRecordForm.dirty || isLoadingMedicalRecord || isSavingMedicalRecord"
+                                (click)="saveEditChanges()">
+                                    @if (isLoadingMedicalRecord || isSavingMedicalRecord) {
+                                        <span class="spinner-border spinner-border-sm me-2"></span>
+                                    } 
+                                    Save
+                            </button>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <b>Appointment Date:</b>
-                                    <p>{{ medicalRecordDetails.appointment.appointmentDate | date:'fullDate' }}</p>
+                            <form [formGroup]="medicalRecordForm">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <b>Visit Date:</b>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="date" formControlName="visitDate">
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <b>Type:</b>
-                                    <p>{{ medicalRecordDetails.appointment.type | appointmentType }}</p>
+                                
+                                <div class="row">
+                                    <div class="col-2">
+                                        <b>Complaint:</b>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" formControlName="complaint">
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <b>Reason:</b>
-                                    <p>{{ medicalRecordDetails.appointment.reason }}</p>
+                                    
+                                <div class="row">
+                                    <div class="col-2">
+                                        <b>Diagnosis:</b>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" formControlName="diagnosis">
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <b>Status:</b>
-                                    <p>
-                                        <app-appointment-status-badge [status]="medicalRecordDetails.appointment.status" />
-                                    </p>
+                                    
+                                <div class="row">
+                                    <div class="col-2">
+                                        <b>Treatment:</b>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" formControlName="treatment">
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                @else {
-                    <div class="card shadow-sm h-100 bg-secondary position-relative py-4">
-                        <span class="position-absolute top-50 start-50 translate-middle text-white fs-5">No appointment</span>
-                    </div>
-                }
-            </div>            
-        </div>
-        <div class="row mb-4">
-
-            <div class="col-lg-6">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body">
-                        <b>Visit Date:</b>
-                        <p>{{ medicalRecordDetails.visitDate | date:'fullDate' }}</p>
-                        
-                        <b>Complaint:</b>
-                        <p>{{ medicalRecordDetails.complaint }}</p>
-                        
-                        <b>Diagnosis:</b>
-                        <p>{{ medicalRecordDetails.diagnosis }}</p>
-                        
-                        <b>Treatment:</b>
-                        <p>{{ medicalRecordDetails.treatment }}</p>
-                        
-                        <div class="card shadow-sm bg-light">
-                            <div class="card-body">
-                                <b>Notes:</b>
-                                <p>{{ medicalRecordDetails.notes }}</p>
-                            </div>
+                                    
+                                <div class="card shadow-sm bg-light">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <b>Notes:</b>
+                                            </div>
+                                            <div class="col">
+                                                <textarea class="form-control" formControlName="notes"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-6">
+                    <div class="card clickable-card shadow-sm" (click)="viewPetDetails(medicalRecordDetails.pet.petId)">
+                        <div class="card-header">
+                            <b>Pet</b>
+                        </div>
+                        <div class="card-body">
+                            <b>Name:</b>
+                            <p>{{ medicalRecordDetails.pet.name}}</p>
+                        
+                            <b>Species:</b>
+                            <p>{{ medicalRecordDetails.pet.species }}</p>
+                            
+                            <b>Breed:</b>
+                            <p>{{ medicalRecordDetails.pet.breed }}</p>
+                            
+                            <b>Weight:</b>
+                            <p>{{ medicalRecordDetails.pet.weight }}</p>
+                                    
+                            <b>Date of Birth:</b>
+                            <p>{{ medicalRecordDetails.pet.birthDate | date:'MMMM d, y' }}</p>
+                        </div>
+                    </div>
+                </div>     
             </div>
 
-            <div class="col-lg-6">
-                <div class="card clickable-card shadow-sm h-100" (click)="viewPetDetails(medicalRecordDetails.pet.petId)">
-                    <div class="card-header">
-                        <b>Pet</b>
+            <div class="row gy-4">
+                <div class="col-lg">
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <b>Clinical Examination</b>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="medicalRecordForm">
+                                <textarea class="form-control" formControlName="clinicalExam"></textarea>
+                            </form>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <b>Name:</b>
-                        <p>{{ medicalRecordDetails.pet.name}}</p>
-                    
-                        <b>Species:</b>
-                        <p>{{ medicalRecordDetails.pet.species }}</p>
-                        
-                        <b>Breed:</b>
-                        <p>{{ medicalRecordDetails.pet.breed }}</p>
-                        
-                        <b>Weight:</b>
-                        <p>{{ medicalRecordDetails.pet.weight }}</p>
+                </div>    
+                <div class="col-lg">
+                    <div class="card clickable-card shadow-sm" (click)="viewOwnerDetails(medicalRecordDetails.owner.ownerId)">
+                        <div class="card-header">
+                            <b>Owner</b>
+                        </div>
+                        <div class="card-body">
+                            @if (medicalRecordDetails.owner) {
+                                <b>Name:</b>
+                                <p>{{ medicalRecordDetails.owner.firstName }} {{ medicalRecordDetails.owner.lastName }}</p>
                                 
-                        <b>Date of Birth:</b>
-                        <p>{{ medicalRecordDetails.pet.birthDate | date:'MMMM d, y' }}</p>
+                                <b>Phone:</b>
+                                <p>{{ medicalRecordDetails.owner.phoneNumber }}</p>
+                                
+                                <b>Email:</b>
+                                <p>{{ medicalRecordDetails.owner.email }}</p>
+                                
+                                <b>Address:</b>
+                                <p>{{ medicalRecordDetails.owner.address }}</p>
+                            }
+                            @else {
+                                <span>This pet has no owner.</span>
+                            }
+                        </div>
                     </div>
-                </div>
-            </div>     
-        </div>
-
-        <div class="row">
-            <div class="col-lg">
-                <div class="card clickable-card shadow-sm h-100" (click)="viewOwnerDetails(medicalRecordDetails.owner.ownerId)">
-                    <div class="card-header">
-                        <b>Owner</b>
+                </div>      
+            </div>
+            
+            <div class="row">
+                <div class="col-lg">
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <b>Client Communication</b>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="medicalRecordForm">
+                                <textarea class="form-control" formControlName="clientCommunication"></textarea>
+                            </form>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        @if (medicalRecordDetails.owner) {
-                            <b>Name:</b>
-                            <p>{{ medicalRecordDetails.owner.firstName }} {{ medicalRecordDetails.owner.lastName }}</p>
-                            
-                            <b>Phone:</b>
-                            <p>{{ medicalRecordDetails.owner.phoneNumber }}</p>
-                            
-                            <b>Email:</b>
-                            <p>{{ medicalRecordDetails.owner.email }}</p>
-                            
-                            <b>Address:</b>
-                            <p>{{ medicalRecordDetails.owner.address }}</p>
-                        }
-                        @else {
-                            <span>This pet has no owner.</span>
-                        }
-                    </div>
-                </div>
-            </div>     
+                </div>       
+            </div>
         </div>
     }
 </app-page-layout>

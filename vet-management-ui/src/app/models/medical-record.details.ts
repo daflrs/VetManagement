@@ -11,6 +11,8 @@ export interface MedicalRecordDetailsDto {
     complaint: string;
     diagnosis: string;
     treatment: string;
+    clinicalExam: string;
+    clientCommunication: string;
     weight: string;
     notes: string;
 }

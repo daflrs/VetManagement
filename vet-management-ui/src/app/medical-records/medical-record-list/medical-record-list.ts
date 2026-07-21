@@ -61,11 +61,6 @@ export class MedicalRecordList {
     });
   }
 
-  editMedicalRecord(event: MouseEvent, id: number): void {
-    event?.stopPropagation();
-    this.router.navigate(['medical-records/edit', id]);
-  }
-
   viewMedicalRecordDetails(id: number): void {
     this.router.navigate(['medical-records/details', id]);
   }

@@ -11,5 +11,8 @@ namespace VetManagement.DTOs
         public DateTime BirthDate { get; set; }
         public decimal Weight { get; set; }
         public OwnerDto? Owner { get; set; }
+        public bool isNeutered { get; set; }
+        public bool isDeceased { get; set; }
+        public DateOnly? DateOfDeath { get; set; }
     }
 }

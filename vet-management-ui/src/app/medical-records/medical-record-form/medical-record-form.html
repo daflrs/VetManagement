@@ -77,15 +77,24 @@
             
             <div class="input-group mb-3">
                 <label class="input-group-text">
-                    Notes
-                    <span class="text-danger ms-1">*</span>
+                    Clinical Examination
                 </label>
+                <textarea class="form-control" formControlName="clinicalExam"></textarea>
+            </div>
+        
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Client Communication
+                </label>
+                <textarea class="form-control" formControlName="clientCommunication"></textarea>
+            </div>
+        
+            <div class="input-group mb-3">
+                <label class="input-group-text">Notes</label>
                 <textarea class="form-control" formControlName="notes"></textarea>
             </div>
         
-            <button type="submit" class="btn btn-primary" [disabled]="isLoading">
-                {{ isEditMode ? 'Update' : 'Create' }} Medical Record
-            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="isLoading">Create Medical Record</button>
         </form>
     </div> 
 </app-page-layout>    

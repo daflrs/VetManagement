@@ -46,13 +46,6 @@ export class MedicalRecordForm {
     this.loadAppointments();
     this.loadPets();
 
-    const id = this.route.snapshot.paramMap.get('id');
-
-    if (id) {
-      this.medicalRecordId = +id;
-      this.loadMedicalRecord(this.medicalRecordId);
-    }
-
     const appointmentId = this.route.snapshot.queryParamMap.get('appointmentId');
 
     if (appointmentId) {
@@ -60,22 +53,6 @@ export class MedicalRecordForm {
         appointmentId: +appointmentId
       });
     }
-  }
-
-  loadMedicalRecord(id: number): void {
-    this.form.get('appointmentId')?.disable();
-    
-    this.medicalRecordService.getMedicalRecord(id).subscribe({
-      next: (medicalRecord: any) => {
-        this.form.patchValue(({
-          ...medicalRecord,
-          visitDate: medicalRecord.visitDate.split('T')[0]
-        }));
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
   }
 
   loadAppointments(): void {
@@ -112,23 +89,7 @@ export class MedicalRecordForm {
     
     this.isLoading = true;
     
-    if (this.medicalRecordId) {
-      // Update
-      this.medicalRecordService.updateMedicalRecord(this.medicalRecordId, this.form.value).subscribe({
-        next: () => {
-          this.toastService.success(`Medical record updated successfully!`);
-          this.router.navigate(['/medical-records']);
-        },
-        error: (err) => {
-          this.toastService.error(err.error.message);
-          console.error(err);
-          this.isLoading = false;
-        }
-      });
-    } else {
-      // Create
-      this.createMedicalRecord();
-    }
+    this.createMedicalRecord();
   }
 
   createMedicalRecord(): void {
@@ -148,10 +109,6 @@ export class MedicalRecordForm {
           this.isLoading = false;
         }
       });
-  }
-
-  get isEditMode(): boolean {
-    return this.medicalRecordId !== null;
   }
 
   createWithoutAppointment(): void {

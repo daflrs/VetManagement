@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetManagement.Data;
 
@@ -11,9 +12,11 @@ using VetManagement.Data;
 namespace VetManagement.Migrations
 {
     [DbContext(typeof(VetManagementDbContext))]
-    partial class VetManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260720080151_AddNeuteredAndDeceasedToPet")]
+    partial class AddNeuteredAndDeceasedToPet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,55 +70,6 @@ namespace VetManagement.Migrations
                     b.HasIndex("PetId");
 
                     b.ToTable("Appointments");
-                });
-
-            modelBuilder.Entity("VetManagement.Models.LabExam", b =>
-                {
-                    b.Property<int>("LabExamId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LabExamId"));
-
-                    b.Property<string>("Interpretation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MedicalRecordId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LabExamId");
-
-                    b.HasIndex("MedicalRecordId")
-                        .IsUnique();
-
-                    b.ToTable("LabExam");
-                });
-
-            modelBuilder.Entity("VetManagement.Models.LabExamFinding", b =>
-                {
-                    b.Property<int>("LabExamFindingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LabExamFindingId"));
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LabExamId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Remark")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("LabExamFindingId");
-
-                    b.HasIndex("LabExamId");
-
-                    b.ToTable("LabExamFinding");
                 });
 
             modelBuilder.Entity("VetManagement.Models.MedicalRecord", b =>
@@ -224,9 +178,15 @@ namespace VetManagement.Migrations
                     b.Property<DateOnly?>("DateOfDeath")
                         .HasColumnType("date");
 
+                    b.Property<bool>("Deceased")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Neutered")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("OwnerId")
                         .HasColumnType("int");
@@ -237,12 +197,6 @@ namespace VetManagement.Migrations
 
                     b.Property<decimal>("Weight")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("isDeceased")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isNeutered")
-                        .HasColumnType("bit");
 
                     b.HasKey("PetId");
 
@@ -260,24 +214,6 @@ namespace VetManagement.Migrations
                         .IsRequired();
 
                     b.Navigation("Pet");
-                });
-
-            modelBuilder.Entity("VetManagement.Models.LabExam", b =>
-                {
-                    b.HasOne("VetManagement.Models.MedicalRecord", null)
-                        .WithOne("LabExam")
-                        .HasForeignKey("VetManagement.Models.LabExam", "MedicalRecordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("VetManagement.Models.LabExamFinding", b =>
-                {
-                    b.HasOne("VetManagement.Models.LabExam", null)
-                        .WithMany("LabExamFindings")
-                        .HasForeignKey("LabExamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("VetManagement.Models.MedicalRecord", b =>
@@ -310,16 +246,6 @@ namespace VetManagement.Migrations
             modelBuilder.Entity("VetManagement.Models.Appointment", b =>
                 {
                     b.Navigation("MedicalRecord");
-                });
-
-            modelBuilder.Entity("VetManagement.Models.LabExam", b =>
-                {
-                    b.Navigation("LabExamFindings");
-                });
-
-            modelBuilder.Entity("VetManagement.Models.MedicalRecord", b =>
-                {
-                    b.Navigation("LabExam");
                 });
 
             modelBuilder.Entity("VetManagement.Models.Owner", b =>

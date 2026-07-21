@@ -8,4 +8,7 @@ export interface PetDetailsDto {
     birthDate: string;
     weight: string;
     owner?: Owner
+    isNeutered: boolean;
+    isDeceased: boolean;
+    dateOfDeath?: string;
 }

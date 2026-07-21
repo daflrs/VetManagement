@@ -18,6 +18,51 @@ namespace VetManagement.Controllers
             _context = context;
         }
 
+        private static MedicalRecordDetailsDto ToDetailsDto(MedicalRecord medicalRecord)
+        {
+            return new MedicalRecordDetailsDto
+            {
+                VisitDate = medicalRecord.VisitDate,
+                Complaint = medicalRecord.Complaint,
+                Diagnosis = medicalRecord.Diagnosis,
+                Treatment = medicalRecord.Treatment,
+                Weight = medicalRecord.Weight,
+                ClinicalExam = medicalRecord.ClinicalExam,
+                ClientCommunication = medicalRecord.ClientCommunication,
+                Notes = medicalRecord.Notes,
+                Pet = new PetDto
+                {
+                    PetId = medicalRecord.PetId,
+                    Name = medicalRecord.Pet.Name,
+                    Species = medicalRecord.Pet.Species,
+                    Breed = medicalRecord.Pet.Breed,
+                    BirthDate = medicalRecord.Pet.BirthDate,
+                    Weight = medicalRecord.Pet.Weight
+                },
+                Owner = medicalRecord.Pet.Owner != null
+                        ? new OwnerDto
+                        {
+                            OwnerId = medicalRecord.Pet.Owner.OwnerId,
+                            FirstName = medicalRecord.Pet.Owner.FirstName,
+                            LastName = medicalRecord.Pet.Owner.LastName,
+                            PhoneNumber = medicalRecord.Pet.Owner.PhoneNumber,
+                            Email = medicalRecord.Pet.Owner.Email,
+                            Address = medicalRecord.Pet.Owner.Address
+                        }
+                        : null,
+                Appointment = medicalRecord.Appointment != null
+                        ? new AppointmentDto
+                        {
+                            AppointmentId = medicalRecord.Appointment.AppointmentId,
+                            Type = medicalRecord.Appointment.Type,
+                            AppointmentDate = medicalRecord.Appointment.AppointmentDate,
+                            Reason = medicalRecord.Appointment.Reason,
+                            Status = medicalRecord.Appointment.Status
+                        }
+                        : null
+            };
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MedicalRecordDto>>> GetMedicalRecords()
         {
@@ -32,6 +77,8 @@ namespace VetManagement.Controllers
                     Diagnosis = m.Diagnosis,
                     Treatment = m.Treatment,
                     Weight = m.Weight,
+                    ClinicalExam = m.ClinicalExam,
+                    ClientCommunication = m.ClientCommunication,
                     Notes = m.Notes
                 })
                 .ToListAsync();
@@ -53,6 +100,8 @@ namespace VetManagement.Controllers
                     Diagnosis = m.Diagnosis,
                     Treatment = m.Treatment,
                     Weight = m.Weight,
+                    ClinicalExam = m.ClinicalExam,
+                    ClientCommunication = m.ClientCommunication,
                     Notes = m.Notes,
                     PetName = m.Pet.Name
                 })
@@ -70,54 +119,17 @@ namespace VetManagement.Controllers
         public async Task<ActionResult<MedicalRecordDetailsDto>> GetMedicalRecordDetails(int id)
         {
             var medicalRecord = await _context.MedicalRecords
-                .Where(m => m.MedicalRecordId == id)
-                .Select(m => new MedicalRecordDetailsDto
-                {
-                    VisitDate = m.VisitDate,
-                    Complaint = m.Complaint,
-                    Diagnosis = m.Diagnosis,
-                    Treatment = m.Treatment,
-                    Weight = m.Weight,
-                    Notes = m.Notes,
-                    Pet = new PetDto
-                    {
-                        PetId = m.PetId,
-                        Name = m.Pet.Name,
-                        Species = m.Pet.Species,
-                        Breed = m.Pet.Breed,
-                        BirthDate = m.Pet.BirthDate,
-                        Weight = m.Pet.Weight
-                    },
-                    Owner = m.Pet.Owner != null
-                        ? new OwnerDto
-                        {
-                            OwnerId = m.Pet.Owner.OwnerId,
-                            FirstName = m.Pet.Owner.FirstName,
-                            LastName = m.Pet.Owner.LastName,
-                            PhoneNumber = m.Pet.Owner.PhoneNumber,
-                            Email = m.Pet.Owner.Email,
-                            Address = m.Pet.Owner.Address
-                        }
-                        : null,
-                    Appointment = m.Appointment != null
-                        ? new AppointmentDto
-                        {
-                            AppointmentId = m.Appointment.AppointmentId,
-                            Type = m.Appointment.Type,
-                            AppointmentDate = m.Appointment.AppointmentDate,
-                            Reason = m.Appointment.Reason,
-                            Status = m.Appointment.Status
-                        }
-                        : null
-                })
-                .FirstOrDefaultAsync();
+                .Include(m => m.Appointment)
+                .Include(m => m.Pet)
+                    .ThenInclude(p => p.Owner)
+                .FirstOrDefaultAsync(m => m.MedicalRecordId == id);
 
             if (medicalRecord == null)
             {
                 return ApiResponses.NotFound($"Medical record with {id} not found.");
             }
 
-            return Ok(medicalRecord);
+            return Ok(ToDetailsDto(medicalRecord));
         }
 
         [HttpPost]
@@ -137,6 +149,8 @@ namespace VetManagement.Controllers
                 Diagnosis = dto.Diagnosis,
                 Treatment = dto.Treatment,
                 Weight = dto.Weight,
+                ClinicalExam = dto.ClinicalExam,
+                ClientCommunication = dto.ClientCommunication,
                 Notes = dto.Notes,
                 AppointmentId = dto.AppointmentId
             };
@@ -156,6 +170,8 @@ namespace VetManagement.Controllers
                     Diagnosis = m.Diagnosis,
                     Treatment = m.Treatment,
                     Weight = m.Weight,
+                    ClinicalExam = m.ClinicalExam,
+                    ClientCommunication = m.ClientCommunication,
                     Notes = m.Notes,
                     PetName = m.Pet.Name
                 })
@@ -182,11 +198,19 @@ namespace VetManagement.Controllers
             medicalRecord.Diagnosis = dto.Diagnosis;
             medicalRecord.Treatment = dto.Treatment;
             medicalRecord.Weight = dto.Weight;
+            medicalRecord.ClinicalExam = dto.ClinicalExam;
+            medicalRecord.ClientCommunication = dto.ClientCommunication;
             medicalRecord.Notes = dto.Notes;
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            var updatedMedicalRecord = await _context.MedicalRecords
+                .Include(m => m.Appointment)
+                .Include(m => m.Pet)
+                    .ThenInclude(p => p.Owner)
+                .FirstAsync(m => m.MedicalRecordId == id);
+
+            return Ok(ToDetailsDto(updatedMedicalRecord));
         }
 
         [HttpDelete("{id}")]

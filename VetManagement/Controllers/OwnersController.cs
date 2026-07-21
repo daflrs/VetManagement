@@ -89,34 +89,15 @@ namespace VetManagement.Controllers
         public async Task<ActionResult<OwnerDetailsDto>> GetOwnerDetails(int id)
         {
             var owner = await _context.Owners
-                .Where(o => o.OwnerId == id)
-                .Select(o => new OwnerDetailsDto
-                {
-                    OwnerId = o.OwnerId,
-                    FirstName = o.FirstName,
-                    LastName = o.LastName,
-                    PhoneNumber = o.PhoneNumber,
-                    Email = o.Email,
-                    Address = o.Address,
-                    Pets = o.Pets.Select(p => new PetDto
-                    {
-                        PetId = p.PetId,
-                        Name = p.Name,
-                        Species = p.Species,
-                        Breed = p.Breed,
-                        BirthDate = p.BirthDate,
-                        Weight = p.Weight
-                    })
-                    .ToList()
-                })
-                .FirstOrDefaultAsync();
+                .Include(o => o.Pets)
+                .FirstOrDefaultAsync(o => o.OwnerId == id);
 
             if (owner == null)
             {
                 return ApiResponses.NotFound($"Owner with {id} not found.");
             }
 
-            return Ok(owner);
+            return Ok(ToDetailsDto(owner));
         }
 
         [HttpGet("available-for-owner")]

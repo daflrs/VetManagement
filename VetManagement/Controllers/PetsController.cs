@@ -28,17 +28,20 @@ namespace VetManagement.Controllers
                 Breed = pet.Breed,
                 BirthDate = pet.BirthDate,
                 Weight = pet.Weight,
+                isNeutered = pet.isNeutered,
+                isDeceased = pet.isDeceased,
+                DateOfDeath = pet.DateOfDeath,
                 Owner = pet.Owner != null
-                        ? new OwnerDto
-                        {
-                            OwnerId = pet.Owner.OwnerId,
-                            FirstName = pet.Owner.FirstName,
-                            LastName = pet.Owner.LastName,
-                            PhoneNumber = pet.Owner.PhoneNumber,
-                            Email = pet.Owner.Email,
-                            Address = pet.Owner.Address
-                        }
-                        : null
+                    ? new OwnerDto
+                    {
+                        OwnerId = pet.Owner.OwnerId,
+                        FirstName = pet.Owner.FirstName,
+                        LastName = pet.Owner.LastName,
+                        PhoneNumber = pet.Owner.PhoneNumber,
+                        Email = pet.Owner.Email,
+                        Address = pet.Owner.Address
+                    }
+                    : null
             };
         }
 
@@ -186,6 +189,8 @@ namespace VetManagement.Controllers
             pet.Breed = dto.Breed;
             pet.BirthDate = dto.BirthDate;
             pet.Weight = dto.Weight;
+            pet.isNeutered = dto.isNeutered;
+            pet.isDeceased = dto.isDeceased;
 
             await _context.SaveChangesAsync();
 

@@ -44,7 +44,9 @@ export class PetDetails {
       breed: ['', Validators.required],
       birthDate: ['', Validators.required],
       weight: [0, Validators.required],
-      petId: ['']
+      petId: [''],
+      isNeutered: [false],
+      isDeceased: [false]
     });
 
     this.ownerForm = this.fb.group({
@@ -71,7 +73,9 @@ export class PetDetails {
           breed: this.petDetails.breed,
           birthDate: Helpers.formatDateForInput(this.petDetails.birthDate),
           weight: this.petDetails.weight,
-          petId: this.petDetails.petId
+          petId: this.petDetails.petId,
+          isNeutered: this.petDetails.isNeutered,
+          isDeceased: this.petDetails.isDeceased
         });
         
         this.isLoadingPet = false;

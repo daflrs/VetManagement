@@ -11,5 +11,8 @@
         public int? OwnerId { get; set; }
         public Owner? Owner { get; set; }
         public ICollection<MedicalRecord> MedicalRecords { get; set; } = new List<MedicalRecord>();
+        public bool isNeutered { get; set; }
+        public bool isDeceased { get; set; }
+        public DateOnly? DateOfDeath { get; set; }
     }
 }
