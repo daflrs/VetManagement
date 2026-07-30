@@ -9,7 +9,7 @@
                 (removeImageClicked)="removeImageFromUpload()" />
         </div>
         <div class="col">
-            <textarea class="form-control" formControlName="remark" placeholder="..."></textarea>
+            <textarea class="form-control lab-finding-remark" formControlName="remark" placeholder="Remarks . . ."></textarea>
         </div>
         <div class="col-1">
             <button
@@ -41,7 +41,7 @@
 <app-confirm-modal
     [open]="showConfirmSaveWithoutImageModal"
     title="Update Lab Examination Finding"
-    message="Should the finding have no image?"
+    message="Continue without an image? Prior image will be removed from this finding."
     cancelText="Go Back"
     (confirmed)="confirmSaveWithoutImage()"
     (cancelled)="cancelConfirmSaveWithoutImage()" />

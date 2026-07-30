@@ -111,7 +111,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <div class="card clickable-card shadow-sm" (click)="viewPetDetails(medicalRecordDetails.pet.petId)">
                         <div class="card-header">
                             <b>Pet</b>
@@ -133,9 +133,59 @@
                             <p>{{ medicalRecordDetails.pet.birthDate | date:'MMMM d, y' }}</p>
                         </div>
                     </div>
-                </div>     
+                </div>  
+                <div class="col-lg-3">
+                    <div class="card clickable-card shadow-sm" (click)="viewOwnerDetails(medicalRecordDetails.owner.ownerId)">
+                        <div class="card-header">
+                            <b>Owner</b>
+                        </div>
+                        <div class="card-body">
+                            @if (medicalRecordDetails.owner) {
+                                <b>Name:</b>
+                                <p>{{ medicalRecordDetails.owner.firstName }} {{ medicalRecordDetails.owner.lastName }}</p>
+                                
+                                <b>Phone:</b>
+                                <p>{{ medicalRecordDetails.owner.phoneNumber }}</p>
+                                
+                                <b>Email:</b>
+                                <p>{{ medicalRecordDetails.owner.email }}</p>
+                                
+                                <b>Address:</b>
+                                <p>{{ medicalRecordDetails.owner.address }}</p>
+                            }
+                            @else {
+                                <span>This pet has no owner.</span>
+                            }
+                        </div>
+                    </div>
+                </div>        
             </div>
-
+            <div class="row gy-4">
+                <div class="col-lg">
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <b>Clinical Examination</b>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="medicalRecordForm">
+                                <textarea class="form-control" formControlName="clinicalExam"></textarea>
+                            </form>
+                        </div>
+                    </div>
+                </div>     
+                <div class="col-lg">
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <b>Client Communication</b>
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="medicalRecordForm">
+                                <textarea class="form-control" formControlName="clientCommunication"></textarea>
+                            </form>
+                        </div>
+                    </div>
+                </div>       
+            </div>
             <div class="row gy-4">
                 <div class="col-lg">
                     <div class="card shadow-sm">
@@ -212,61 +262,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="row gy-4">
-                <div class="col-lg">
-                    <div class="card shadow-sm">
-                        <div class="card-header">
-                            <b>Clinical Examination</b>
-                        </div>
-                        <div class="card-body">
-                            <form [formGroup]="medicalRecordForm">
-                                <textarea class="form-control" formControlName="clinicalExam"></textarea>
-                            </form>
-                        </div>
-                    </div>
-                </div>    
-                <div class="col-lg">
-                    <div class="card clickable-card shadow-sm" (click)="viewOwnerDetails(medicalRecordDetails.owner.ownerId)">
-                        <div class="card-header">
-                            <b>Owner</b>
-                        </div>
-                        <div class="card-body">
-                            @if (medicalRecordDetails.owner) {
-                                <b>Name:</b>
-                                <p>{{ medicalRecordDetails.owner.firstName }} {{ medicalRecordDetails.owner.lastName }}</p>
-                                
-                                <b>Phone:</b>
-                                <p>{{ medicalRecordDetails.owner.phoneNumber }}</p>
-                                
-                                <b>Email:</b>
-                                <p>{{ medicalRecordDetails.owner.email }}</p>
-                                
-                                <b>Address:</b>
-                                <p>{{ medicalRecordDetails.owner.address }}</p>
-                            }
-                            @else {
-                                <span>This pet has no owner.</span>
-                            }
-                        </div>
-                    </div>
-                </div>      
-            </div>
-            
-            <div class="row">
-                <div class="col-lg">
-                    <div class="card shadow-sm">
-                        <div class="card-header">
-                            <b>Client Communication</b>
-                        </div>
-                        <div class="card-body">
-                            <form [formGroup]="medicalRecordForm">
-                                <textarea class="form-control" formControlName="clientCommunication"></textarea>
-                            </form>
-                        </div>
-                    </div>
-                </div>       
             </div>
         </div>
     }
