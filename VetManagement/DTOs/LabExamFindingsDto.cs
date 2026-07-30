@@ -1,10 +1,9 @@
-﻿namespace VetManagement.Models
+﻿namespace VetManagement.DTOs
 {
-    public class LabExamFinding
+    public class LabExamFindingsDto
     {
         public int LabExamFindingId { get; set; }
         public string? ImagePath { get; set; }
         public string Remark { get; set; } = String.Empty;
-        public int LabExamId { get; set; }
     }
 }

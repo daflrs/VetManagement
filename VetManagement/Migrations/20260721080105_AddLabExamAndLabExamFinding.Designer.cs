@@ -12,7 +12,7 @@ using VetManagement.Data;
 namespace VetManagement.Migrations
 {
     [DbContext(typeof(VetManagementDbContext))]
-    [Migration("20260721050741_AddLabExamAndLabExamFinding")]
+    [Migration("20260721080105_AddLabExamAndLabExamFinding")]
     partial class AddLabExamAndLabExamFinding
     {
         /// <inheritdoc />
@@ -92,7 +92,7 @@ namespace VetManagement.Migrations
                     b.HasIndex("MedicalRecordId")
                         .IsUnique();
 
-                    b.ToTable("LabExam");
+                    b.ToTable("LabExams");
                 });
 
             modelBuilder.Entity("VetManagement.Models.LabExamFinding", b =>
@@ -118,7 +118,7 @@ namespace VetManagement.Migrations
 
                     b.HasIndex("LabExamId");
 
-                    b.ToTable("LabExamFinding");
+                    b.ToTable("LabExamFindings");
                 });
 
             modelBuilder.Entity("VetManagement.Models.MedicalRecord", b =>

@@ -11,7 +11,7 @@ namespace VetManagement.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "LabExam",
+                name: "LabExams",
                 columns: table => new
                 {
                     LabExamId = table.Column<int>(type: "int", nullable: false)
@@ -21,9 +21,9 @@ namespace VetManagement.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LabExam", x => x.LabExamId);
+                    table.PrimaryKey("PK_LabExams", x => x.LabExamId);
                     table.ForeignKey(
-                        name: "FK_LabExam_MedicalRecords_MedicalRecordId",
+                        name: "FK_LabExams_MedicalRecords_MedicalRecordId",
                         column: x => x.MedicalRecordId,
                         principalTable: "MedicalRecords",
                         principalColumn: "MedicalRecordId",
@@ -31,7 +31,7 @@ namespace VetManagement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LabExamFinding",
+                name: "LabExamFindings",
                 columns: table => new
                 {
                     LabExamFindingId = table.Column<int>(type: "int", nullable: false)
@@ -42,35 +42,35 @@ namespace VetManagement.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LabExamFinding", x => x.LabExamFindingId);
+                    table.PrimaryKey("PK_LabExamFindings", x => x.LabExamFindingId);
                     table.ForeignKey(
-                        name: "FK_LabExamFinding_LabExam_LabExamId",
+                        name: "FK_LabExamFindings_LabExams_LabExamId",
                         column: x => x.LabExamId,
-                        principalTable: "LabExam",
+                        principalTable: "LabExams",
                         principalColumn: "LabExamId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_LabExam_MedicalRecordId",
-                table: "LabExam",
-                column: "MedicalRecordId",
-                unique: true);
+                name: "IX_LabExamFindings_LabExamId",
+                table: "LabExamFindings",
+                column: "LabExamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LabExamFinding_LabExamId",
-                table: "LabExamFinding",
-                column: "LabExamId");
+                name: "IX_LabExams_MedicalRecordId",
+                table: "LabExams",
+                column: "MedicalRecordId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "LabExamFinding");
+                name: "LabExamFindings");
 
             migrationBuilder.DropTable(
-                name: "LabExam");
+                name: "LabExams");
         }
     }
 }

@@ -15,6 +15,8 @@ namespace VetManagement.Data
         public DbSet<Pet> Pets => Set<Pet>();
         public DbSet<Appointment> Appointments => Set<Appointment>();
         public DbSet<MedicalRecord> MedicalRecords => Set<MedicalRecord>();
+        public DbSet<LabExam> LabExams => Set<LabExam>();
+        public DbSet<LabExamFinding> LabExamFindings => Set<LabExamFinding>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

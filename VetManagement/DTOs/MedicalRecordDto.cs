@@ -12,6 +12,7 @@
         public string Treatment { get; set; } = String.Empty;
         public string ClinicalExam { get; set; } = String.Empty;
         public string ClientCommunication { get; set; } = String.Empty;
+        public int? LabExamId { get; set; }
         public string Notes { get; set; } = String.Empty;
     }
 }

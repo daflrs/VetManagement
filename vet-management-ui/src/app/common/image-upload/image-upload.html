@@ -1,0 +1,36 @@
+<div class="card d-grid">
+
+    <div class="card-header">
+        @if (imagePreview()) {
+            <img [src]="imagePreview()" [class]="imageClass()">
+        }
+    </div>
+
+    <div class="card-body p-2">
+
+        <div class="d-flex align-items-center gap-1">
+
+            <input
+                hidden
+                #fileInput
+                type="file"
+                (change)="onImageSelected($event)"
+                accept=".jpg,.jpeg,.png">
+
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="fileInput.click()">
+                Upload
+            </button>
+
+            <small>
+                {{ truncateFileName(selectedFileName()) }}
+            </small>
+
+            @if (selectedFileName()) {
+                <div type="button" (click)="removeImage()">
+                    <i class="bi bi-x-square-fill text-danger"></i>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

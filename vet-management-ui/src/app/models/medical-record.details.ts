@@ -1,4 +1,5 @@
 import { Appointment } from "./appointment";
+import { LabExam } from "./labExam";
 import { Owner } from "./owner";
 import { Pet } from "./pet";
 
@@ -15,4 +16,5 @@ export interface MedicalRecordDetailsDto {
     clientCommunication: string;
     weight: string;
     notes: string;
+    labExam?: LabExam;
 }

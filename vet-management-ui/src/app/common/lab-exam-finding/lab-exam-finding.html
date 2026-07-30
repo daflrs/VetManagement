@@ -1,0 +1,47 @@
+<form [formGroup]="labExamFindingForm">
+    <div class="row">
+        <div class="col-2 p-2">
+            <app-image-upload 
+                [imagePreview]="imageToDisplay"
+                [imageClass]="imageClass()"
+                [selectedFileName]="fileNameToDisplay"
+                (imageSelected)="onImageSelected($event)"
+                (removeImageClicked)="removeImageFromUpload()" />
+        </div>
+        <div class="col">
+            <textarea class="form-control" formControlName="remark" placeholder="..."></textarea>
+        </div>
+        <div class="col-1">
+            <button
+                type="button"
+                class="btn btn-sm btn-primary ms-auto"
+                [disabled]="!labExamFindingForm.dirty || isLoading() || isSaving()"
+                (click)="onSaveClicked()">
+                    @if (isLoading() || isSaving()) {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                    } 
+                    Save
+            </button>
+
+            @if (mode() === 'edit') {
+                <button
+                    type="button"
+                    class="btn btn-sm btn-danger ms-auto"
+                    [disabled]="isLoading() || isSaving()"
+                    (click)="onDelete()">
+                        @if (isLoading() || isSaving()) {
+                            <span class="spinner-border spinner-border-sm me-2"></span>
+                        } 
+                        Delete
+                </button>  
+            }
+        </div>               
+    </div>
+</form>
+<app-confirm-modal
+    [open]="showConfirmSaveWithoutImageModal"
+    title="Update Lab Examination Finding"
+    message="Should the finding have no image?"
+    cancelText="Go Back"
+    (confirmed)="confirmSaveWithoutImage()"
+    (cancelled)="cancelConfirmSaveWithoutImage()" />
