@@ -46,7 +46,9 @@ export class PetDetails {
       weight: [0, Validators.required],
       petId: [''],
       isNeutered: [false],
-      isDeceased: [false]
+      isDeceased: [false],
+      color: [''],
+      remarks: ['']
     });
 
     this.ownerForm = this.fb.group({
@@ -75,7 +77,9 @@ export class PetDetails {
           weight: this.petDetails.weight,
           petId: this.petDetails.petId,
           isNeutered: this.petDetails.isNeutered,
-          isDeceased: this.petDetails.isDeceased
+          isDeceased: this.petDetails.isDeceased,
+          color: this.petDetails.color,
+          remarks: this.petDetails.remarks
         });
         
         this.isLoadingPet = false;

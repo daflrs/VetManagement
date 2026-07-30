@@ -11,4 +11,6 @@ export interface PetDetailsDto {
     isNeutered: boolean;
     isDeceased: boolean;
     dateOfDeath?: string;
+    color: string;
+    remarks: string;
 }

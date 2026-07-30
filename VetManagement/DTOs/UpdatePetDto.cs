@@ -7,7 +7,9 @@
         public string Breed { get; set; } = String.Empty;
         public DateTime BirthDate { get; set; }
         public decimal Weight { get; set; }
+        public string Color { get; set; } = String.Empty;
         public bool isNeutered { get; set; }
         public bool isDeceased { get; set; }
+        public string Remarks { get; set; } = String.Empty;
     }
 }

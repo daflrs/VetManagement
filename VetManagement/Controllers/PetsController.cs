@@ -28,9 +28,11 @@ namespace VetManagement.Controllers
                 Breed = pet.Breed,
                 BirthDate = pet.BirthDate,
                 Weight = pet.Weight,
+                Color = pet.Color,
                 isNeutered = pet.isNeutered,
                 isDeceased = pet.isDeceased,
                 DateOfDeath = pet.DateOfDeath,
+                Remarks = pet.Remarks,
                 Owner = pet.Owner != null
                     ? new OwnerDto
                     {
@@ -189,8 +191,10 @@ namespace VetManagement.Controllers
             pet.Breed = dto.Breed;
             pet.BirthDate = dto.BirthDate;
             pet.Weight = dto.Weight;
+            pet.Color = dto.Color;
             pet.isNeutered = dto.isNeutered;
             pet.isDeceased = dto.isDeceased;
+            pet.Remarks = dto.Remarks;
 
             await _context.SaveChangesAsync();
 
