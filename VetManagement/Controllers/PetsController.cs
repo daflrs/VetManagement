@@ -196,6 +196,16 @@ namespace VetManagement.Controllers
             pet.isDeceased = dto.isDeceased;
             pet.Remarks = dto.Remarks;
 
+            if (!pet.isDeceased)
+            {
+                pet.DateOfDeath = null;
+            }
+
+            if (pet.isDeceased && pet.DateOfDeath == null)
+            {
+                pet.DateOfDeath = DateOnly.FromDateTime(DateTime.UtcNow);
+            }
+
             await _context.SaveChangesAsync();
 
             await _context.Entry(pet)
