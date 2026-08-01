@@ -69,10 +69,19 @@
                                 
                                 <div class="row">
                                     <div class="col-2">
+                                        <b>Treatment:</b>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" formControlName="treatment">
+                                    </div>
+                                </div>
+                                    
+                                <div class="row">
+                                    <div class="col-2">
                                         <b>Complaint:</b>
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" formControlName="complaint">
+                                        <textarea class="form-control" formControlName="complaint"></textarea>
                                     </div>
                                 </div>
                                     
@@ -81,31 +90,14 @@
                                         <b>Diagnosis:</b>
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" formControlName="diagnosis">
+                                        <textarea class="form-control" formControlName="diagnosis"></textarea>
                                     </div>
                                 </div>
                                     
-                                <div class="row">
-                                    <div class="col-2">
-                                        <b>Treatment:</b>
-                                    </div>
-                                    <div class="col">
-                                        <input class="form-control" formControlName="treatment">
-                                    </div>
-                                </div>
-                                    
-                                <div class="card shadow-sm bg-light">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <b>Notes:</b>
-                                            </div>
-                                            <div class="col">
-                                                <textarea class="form-control" formControlName="notes"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <hr>
+
+                                <h5 class="mb-0">Other Notes:</h5>
+                                <textarea class="form-control" formControlName="notes"></textarea>
                             </form>
                         </div>
                     </div>
