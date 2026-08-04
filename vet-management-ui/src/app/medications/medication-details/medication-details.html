@@ -1,0 +1,74 @@
+<app-page-layout title="Medications" [backButton]="true" [isSubPage]="true">
+    @if (isLoading) {
+        <app-loading-spinner message="Loading medication details..." />
+    }
+    @if (medicationDetails) {
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header d-flex align-items-center">
+                        <h3>Medication:</h3>
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-primary ms-auto"
+                            [disabled]="!form.dirty || isLoading || isSaving"
+                            (click)="saveEditChanges()">
+                                @if (isLoading || isSaving) {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                } 
+                                Save
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="form">
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Name:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" formControlName="name">
+                                </div>
+                            </div>
+        
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Price:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="number" formControlName="price">
+                                </div>
+                            </div>
+        
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Stock:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="number" formControlName="availableCount">
+                                </div>
+                            </div>
+        
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Mfg.:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" formControlName="manufacturer">
+                                </div>
+                            </div>
+        
+                            <div class="row">
+                                <div class="col-2">
+                                    <b>Expiration:</b>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="date" formControlName="expirationDate">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</app-page-layout>

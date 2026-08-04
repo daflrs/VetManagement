@@ -15,9 +15,11 @@
     }
 </div>
 <div class="page-content border-top">
-    <div class="m-4">
+    <div class="m-4" [class.mt-2]="backButton()">
         @if (backButton()) {
+            <div class="mb-3 mb-xxl-0">
                 <app-back-button />
+            </div>
         }
         <div [class.container]="isSubPage()">
             <ng-content></ng-content>

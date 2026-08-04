@@ -13,6 +13,13 @@ import { MedicalRecordList } from './medical-records/medical-record-list/medical
 import { MedicalRecordForm } from './medical-records/medical-record-form/medical-record-form';
 import { MedicalRecordDetails } from './medical-records/medical-record-details/medical-record-details';
 import { Layout } from './layout/layout';
+import { MedicationList } from './medications/medication-list/medication-list';
+import { MedicationForm } from './medications/medication-form/medication-form';
+import { MedicationDetails } from './medications/medication-details/medication-details';
+import { Product } from './product/product';
+import { ServiceList } from './services/service-list/service-list';
+import { ServiceForm } from './services/service-form/service-form';
+import { ServiceDetails } from './services/service-details/service-details';
 
 export const routes: Routes = [
     {
@@ -37,19 +44,11 @@ export const routes: Routes = [
                 component: OwnerDetails
             },
             {
-                path: 'owners/edit/:id',
-                component: OwnerForm
-            },
-            {
                 path: 'pets',
                 component: PetList
             },
             {
                 path: 'create-pet',
-                component: PetForm
-            },
-            {
-                path: 'pets/edit/:id',
                 component: PetForm
             },
             {
@@ -81,12 +80,36 @@ export const routes: Routes = [
                 component: MedicalRecordForm
             },
             {
-                path: 'medical-records/edit/:id',
-                component: MedicalRecordForm
-            },
-            {
                 path: 'medical-records/details/:id',
                 component: MedicalRecordDetails
+            },
+            {
+                path: 'products',
+                component: Product
+            },
+            {
+                path: 'products/medications',
+                component: MedicationList
+            },
+            {
+                path: 'products/create-medication',
+                component: MedicationForm
+            },
+            {
+                path: 'products/medications/details/:id',
+                component: MedicationDetails
+            },
+            {
+                path: 'products/services',
+                component: ServiceList
+            },
+            {
+                path: 'products/create-service',
+                component: ServiceForm
+            },
+            {
+                path: 'products/services/details/:id',
+                component: ServiceDetails
             }
         ]
     },

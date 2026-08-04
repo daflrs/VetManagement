@@ -1,0 +1,24 @@
+<app-page-layout title="Services" subtitle="Create Service" [backButton]="true">
+    <div class="py-4 w-50">
+        <form [formGroup]="form" (ngSubmit)="submit()">
+        
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Name
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <input class="form-control" formControlName="name" />
+            </div>
+            
+            <div class="input-group mb-3">
+                <label class="input-group-text">
+                    Price
+                    <span class="text-danger ms-1">*</span>
+                </label>
+                <input class="form-control" type="number" formControlName="price" />
+            </div>
+            
+            <button type="submit" class="btn btn-primary" [disabled]="loading">Create Service</button>
+        </form>
+    </div>
+</app-page-layout>

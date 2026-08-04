@@ -1,0 +1,10 @@
+.back-button {
+    color: var(--bs-secondary);
+    transition: all .15s ease;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    color: var(--bs-primary);
+    transform: translateX(-2px);
+}

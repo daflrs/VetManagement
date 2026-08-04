@@ -1,0 +1,9 @@
+.product-card {
+    cursor: pointer;
+    transition: all .1s ease;
+}
+
+.product-card:hover {
+    transform: translate(4px, -4px);
+    box-shadow: var(--bs-box-shadow-sm)
+}

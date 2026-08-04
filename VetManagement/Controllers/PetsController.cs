@@ -285,6 +285,7 @@ namespace VetManagement.Controllers
             }
 
             _context.Pets.Remove(pet);
+
             await _context.SaveChangesAsync();
 
             return NoContent();

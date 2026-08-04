@@ -1,0 +1,60 @@
+<app-page-layout title="Medications" [backButton]="true">
+    <div class="d-flex">
+        @if (loadingState !== 'loading') {
+            <button type="button" class="btn btn-primary mb-3" routerLink="/products/create-medication">+ Create Medication</button>
+        }
+
+        <!-- @if (loadingState === 'loaded') {
+            <div class="input-group w-50 ms-auto mb-3">
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="searchTerm"
+                    placeholder="Search medications..." />
+                    <button class="btn btn-secondary" (click)="resetSearch()">Reset</button>
+                    <button class="btn btn-dark" (click)="search()">Search</button>
+            </div>
+        } -->
+    </div>
+
+
+    @if (loadingState === 'loading') {
+        <p>Loading medications...</p>
+    }
+    @else if (loadingState === 'empty') {
+        <p>No medications found.</p>
+    }
+    @else if (loadingState === 'error') {
+        <p>Failed to load medications.</p>
+        <button type="button" class="btn btn-secondary" (click)="loadMedications()">Retry</button>
+    }
+    @else {
+        <table class="table table-hover" border="1" cellpadding="8">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Manufacturer</th>
+                    <th>Expiration</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        
+            <tbody>
+                @for (medication of medications; track medication.medicationId) {
+                    <tr (click)="viewMedication(medication.medicationId)">
+                        <td>{{ medication.name }}</td>
+                        <td>₱{{ medication.price }}</td>
+                        <td>{{ medication.availableCount }}</td>
+                        <td>{{ medication.manufacturer }}</td>
+                        <td>{{ medication.expirationDate }}</td>
+                        <td>
+                            <label class="m-1" (click)="deleteMedication($event, medication.medicationId)">🗑</label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</app-page-layout>

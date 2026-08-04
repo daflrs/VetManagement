@@ -12,12 +12,3 @@
     background-color: whitesmoke;
     border-top: 1;
 }
-
-@media (min-width: 1700px) {
-    .back-button-wrapper {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        margin-bottom: 0;
-    }
-}
