@@ -1,9 +1,10 @@
 import { Component, input, output } from '@angular/core';
+import { Modal } from '../modal/modal';
 
 @Component({
   selector: 'app-confirm-modal',
   standalone: true,
-  imports: [],
+  imports: [Modal],
   templateUrl: './confirm-modal.html',
   styleUrl: './confirm-modal.css',
 })

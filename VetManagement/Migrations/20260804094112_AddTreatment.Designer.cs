@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetManagement.Data;
 
@@ -11,9 +12,11 @@ using VetManagement.Data;
 namespace VetManagement.Migrations
 {
     [DbContext(typeof(VetManagementDbContext))]
-    partial class VetManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260804094112_AddTreatment")]
+    partial class AddTreatment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,6 +153,10 @@ namespace VetManagement.Migrations
 
                     b.Property<int>("PetId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Treatment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("VisitDate")
                         .HasColumnType("datetime2");
@@ -321,9 +328,6 @@ namespace VetManagement.Migrations
 
                     b.HasKey("TreatmentId");
 
-                    b.HasIndex("MedicalRecordId")
-                        .IsUnique();
-
                     b.ToTable("Treatments");
                 });
 
@@ -425,15 +429,6 @@ namespace VetManagement.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("VetManagement.Models.Treatment", b =>
-                {
-                    b.HasOne("VetManagement.Models.MedicalRecord", null)
-                        .WithOne("Treatment")
-                        .HasForeignKey("VetManagement.Models.Treatment", "MedicalRecordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("VetManagement.Models.TreatmentItem", b =>
                 {
                     b.HasOne("VetManagement.Models.Medication", "Medication")
@@ -468,8 +463,6 @@ namespace VetManagement.Migrations
             modelBuilder.Entity("VetManagement.Models.MedicalRecord", b =>
                 {
                     b.Navigation("LabExam");
-
-                    b.Navigation("Treatment");
                 });
 
             modelBuilder.Entity("VetManagement.Models.Owner", b =>

@@ -38,8 +38,9 @@ export class MedicalRecordForm {
       visitDate: ['', Validators.required],
       complaint: ['', Validators.required],
       diagnosis: ['', Validators.required],
-      treatment: ['', Validators.required],
       weight: [0, Validators.required],
+      clinicalExam: [''],
+      clientCommunication: [''],
       notes: ['']
     });
 

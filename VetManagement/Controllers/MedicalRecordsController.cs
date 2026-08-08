@@ -70,7 +70,6 @@ namespace VetManagement.Controllers
                 VisitDate = medicalRecord.VisitDate,
                 Complaint = medicalRecord.Complaint,
                 Diagnosis = medicalRecord.Diagnosis,
-                Treatment = medicalRecord.Treatment,
                 Weight = medicalRecord.Weight,
                 ClinicalExam = medicalRecord.ClinicalExam,
                 ClientCommunication = medicalRecord.ClientCommunication,
@@ -120,6 +119,43 @@ namespace VetManagement.Controllers
                             })
                             .ToList()
                     }
+                    : null,
+                Treatment = medicalRecord.Treatment != null
+                    ? new TreatmentDto
+                    {
+                        TreatmentId = medicalRecord.Treatment.TreatmentId,
+                        TreatmentItems = medicalRecord.Treatment.TreatmentItems
+                            .OrderByDescending(t => t.TreatmentItemId)
+                            .Select(t => new TreatmentItemDto
+                            {
+                                TreatmentItemId = t.TreatmentItemId,
+                                Medication = t.Medication != null
+                                    ? new MedicationDto
+                                    {
+                                        MedicationId = t.Medication.MedicationId,
+                                        Name = t.Medication.Name,
+                                        Price = t.Medication.Price,
+                                        AvailableCount = t.Medication.AvailableCount,
+                                        Manufacturer = t.Medication.Manufacturer,
+                                        ExpirationDate = t.Medication.ExpirationDate
+                                    }
+                                    : null,
+                                Service = t.Service != null
+                                    ? new ServiceDto
+                                    {
+                                        ServiceId = t.Service.ServiceId,
+                                        Name = t.Service.Name,
+                                        Price = t.Service.Price
+                                    }
+                                    : null,
+                                NameAtTreatment = t.NameAtTreatment,
+                                UnitPrice = t.UnitPrice,
+                                Quantity = t.Quantity,
+                                Reason = t.Reason
+                            })
+                            .ToList(),
+                        Others = medicalRecord.Treatment.Others
+                    }
                     : null
             };
         }
@@ -130,6 +166,12 @@ namespace VetManagement.Controllers
                 .Include(m => m.Appointment)
                 .Include(m => m.LabExam!)
                     .ThenInclude(l => l.LabExamFindings)
+                .Include(m => m.Treatment!)
+                    .ThenInclude(t => t.TreatmentItems)
+                        .ThenInclude(ti => ti.Medication)
+                .Include(m => m.Treatment!)
+                    .ThenInclude(t => t.TreatmentItems)
+                        .ThenInclude(ti => ti.Service)
                 .Include(m => m.Pet)
                     .ThenInclude(p => p.Owner)
                 .FirstAsync(m => m.MedicalRecordId == id);
@@ -147,7 +189,6 @@ namespace VetManagement.Controllers
                     VisitDate = m.VisitDate,
                     Complaint = m.Complaint,
                     Diagnosis = m.Diagnosis,
-                    Treatment = m.Treatment,
                     Weight = m.Weight,
                     ClinicalExam = m.ClinicalExam,
                     ClientCommunication = m.ClientCommunication,
@@ -170,7 +211,6 @@ namespace VetManagement.Controllers
                     VisitDate = m.VisitDate,
                     Complaint = m.Complaint,
                     Diagnosis = m.Diagnosis,
-                    Treatment = m.Treatment,
                     Weight = m.Weight,
                     ClinicalExam = m.ClinicalExam,
                     ClientCommunication = m.ClientCommunication,
@@ -215,7 +255,6 @@ namespace VetManagement.Controllers
                 VisitDate = dto.VisitDate,
                 Complaint = dto.Complaint,
                 Diagnosis = dto.Diagnosis,
-                Treatment = dto.Treatment,
                 Weight = dto.Weight,
                 ClinicalExam = dto.ClinicalExam,
                 ClientCommunication = dto.ClientCommunication,
@@ -236,7 +275,6 @@ namespace VetManagement.Controllers
                     VisitDate = m.VisitDate,
                     Complaint = m.Complaint,
                     Diagnosis = m.Diagnosis,
-                    Treatment = m.Treatment,
                     Weight = m.Weight,
                     ClinicalExam = m.ClinicalExam,
                     ClientCommunication = m.ClientCommunication,
@@ -264,7 +302,6 @@ namespace VetManagement.Controllers
             medicalRecord.VisitDate = dto.VisitDate;
             medicalRecord.Complaint = dto.Complaint;
             medicalRecord.Diagnosis = dto.Diagnosis;
-            medicalRecord.Treatment = dto.Treatment;
             medicalRecord.Weight = dto.Weight;
             medicalRecord.ClinicalExam = dto.ClinicalExam;
             medicalRecord.ClientCommunication = dto.ClientCommunication;
@@ -335,14 +372,6 @@ namespace VetManagement.Controllers
             labExam.Interpretation = dto.Interpretation;
 
             await _context.SaveChangesAsync();
-
-            var medicalRecord = await _context.MedicalRecords
-                .Include(m => m.Appointment)
-                .Include(m => m.LabExam!)
-                    .ThenInclude(l => l.LabExamFindings)
-                .Include(m => m.Pet)
-                    .ThenInclude(p => p.Owner)
-                .FirstAsync(m => m.MedicalRecordId == id);
 
             return Ok(ToDetailsDto(await GetMedicalRecordDetailss(id)));
         }

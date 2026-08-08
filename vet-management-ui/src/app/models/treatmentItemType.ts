@@ -1,0 +1,1 @@
+export type TreatmentItemType = 'medication' | 'service';

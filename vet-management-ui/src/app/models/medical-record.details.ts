@@ -2,6 +2,7 @@ import { Appointment } from "./appointment";
 import { LabExam } from "./labExam";
 import { Owner } from "./owner";
 import { Pet } from "./pet";
+import { Treatment } from "./treatment";
 
 export interface MedicalRecordDetailsDto {
     medicalRecordId: number;
@@ -11,7 +12,7 @@ export interface MedicalRecordDetailsDto {
     visitDate: string;
     complaint: string;
     diagnosis: string;
-    treatment: string;
+    treatment?: Treatment;
     clinicalExam: string;
     clientCommunication: string;
     weight: string;

@@ -15,7 +15,7 @@ import { LoadingSpinner } from '../common/loading-spinner/loading-spinner';
 })
 export class Product {
 
-  isLoading: boolean = false;
+  loadingState: 'loading' | 'loaded' | 'empty' | 'error' = 'loading';
   medicationCount: number | null = null;
   serviceCount: number | null = null;
 
@@ -32,17 +32,17 @@ export class Product {
   }
 
   getMedicationsCount(): void {
-    this.isLoading = true;
+    this.loadingState = 'loading';
 
     this.medicationService.getMedications().subscribe({
       next: (data) =>{
         this.medicationCount = data.length;
-        this.isLoading = false;
+        this.loadingState = 'loaded';
       },
       error: (err) => {
         this.toastService.error(err.error.message);
         console.log(err);
-        this.isLoading = false;
+        this.loadingState = 'error';
       }
     });
   }
@@ -52,18 +52,18 @@ export class Product {
   }
   
   getServicesCount(): void {
-    this.isLoading = true;
+    this.loadingState = 'loading';
 
     this.serviceService.getServices().subscribe({
       next: (data) =>{
         console.log(data)
         this.serviceCount = data.length;
-        this.isLoading = false;
+        this.loadingState = 'loaded';
       },
       error: (err) => {
         this.toastService.error(err.error.message);
         console.log(err);
-        this.isLoading = false;
+        this.loadingState = 'error';
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Pet } from "./pet";
+import { Treatment } from "./treatment";
 
 export interface MedicalRecord {
     medicalRecordId: number;
@@ -7,7 +7,7 @@ export interface MedicalRecord {
     visitDate: string;
     complaint: string;
     diagnosis: string;
-    treatment: string;
+    treatment?: Treatment;
     clinicalExam: string;
     clientCommunication: string;
     weight: number;

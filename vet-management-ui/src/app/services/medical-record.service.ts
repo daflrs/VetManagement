@@ -40,8 +40,8 @@ export class MedicalRecordService {
     return this.http.post<MedicalRecord>(this.apiUrlMedicalRecords, medicalRecord);
   }
   
-  updateMedicalRecord(id: number, medicalRecord: any) {
-    return this.http.put(`${this.apiUrlMedicalRecords}/${id}`, medicalRecord);
+  updateMedicalRecord(id: number, medicalRecord: any): Observable<MedicalRecordDetailsDto> {
+    return this.http.put<MedicalRecordDetailsDto>(`${this.apiUrlMedicalRecords}/${id}`, medicalRecord);
   }
 
   deleteMedicalRecord(id: number) {
@@ -56,8 +56,8 @@ export class MedicalRecordService {
     return this.http.put<MedicalRecordDetailsDto>(`${this.apiUrlMedicalRecords}/${id}/lab-examination`, labExamination);
   }
   
-  deleteLabExamFinding(id: number, findingId: number) {
-    return this.http.delete(`${this.apiUrlMedicalRecords}/${id}/lab-exam-finding/${findingId}`);
+  deleteLabExamFinding(id: number, findingId: number): Observable<MedicalRecordDetailsDto> {
+    return this.http.delete<MedicalRecordDetailsDto>(`${this.apiUrlMedicalRecords}/${id}/lab-exam-finding/${findingId}`);
   }
   
   createLabExamFinding(id: number, labExamFinding: any): Observable<MedicalRecordDetailsDto> {

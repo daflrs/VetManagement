@@ -33,8 +33,8 @@
                         </div>
                     }
                     @else {
-                        <div class="card shadow-sm bg-secondary position-relative py-4">
-                            <span class="position-absolute top-50 start-50 translate-middle text-white fs-6">No appointment attached.</span>
+                        <div class="card shadow-sm bg-secondary position-relative py-3">
+                            <span class="position-absolute top-50 start-50 translate-middle text-white fs-6">No appointment</span>
                         </div>
                     }
                 </div>            
@@ -67,15 +67,6 @@
                                     </div>
                                 </div>
                                 
-                                <div class="row">
-                                    <div class="col-2">
-                                        <b>Treatment:</b>
-                                    </div>
-                                    <div class="col">
-                                        <input class="form-control" formControlName="treatment">
-                                    </div>
-                                </div>
-                                    
                                 <div class="row">
                                     <div class="col-2">
                                         <b>Complaint:</b>
@@ -130,7 +121,7 @@
                     </div>
                 </div>  
                 <div class="col-lg-3">
-                    <div class="card clickable-card shadow-sm" (click)="viewOwnerDetails(medicalRecordDetails.owner.ownerId)">
+                    <div class="card clickable-card shadow-sm" (click)="viewOwnerDetails(medicalRecordDetails.owner!.ownerId)">
                         <div class="card-header">
                             <b>Owner</b>
                         </div>
@@ -167,7 +158,7 @@
                             </form>
                         </div>
                     </div>
-                </div>     
+                </div>   
                 <div class="col-lg">
                     <div class="card shadow-sm">
                         <div class="card-header">
@@ -179,7 +170,7 @@
                             </form>
                         </div>
                     </div>
-                </div>       
+                </div>   
             </div>
             <div class="row gy-4">
                 <div class="col-lg">
@@ -189,6 +180,18 @@
                         </div>
                         <div class="card-body">
                             @if (isLabExamInputVisible || medicalRecordDetails.labExam) {
+                                @if (!isFindingInputVisible) {
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-primary"
+                                        [disabled]="isLoadingLabExam || isSavingLabExam"
+                                        (click)="showLabExamFindingInput()">
+                                            @if (isLoadingLabExam || isSavingLabExam) {
+                                                <span class="spinner-border spinner-border-sm me-2"></span>
+                                            } 
+                                            + Add Finding
+                                    </button>
+                                }
                                 <div class="d-grid gap-2">
                                     @if (isFindingInputVisible) {
                                         <div class="card shadow-sm bg-light">
@@ -200,20 +203,8 @@
                                             </div>
                                         </div>
                                     }
-                                    @else {
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-primary"
-                                            [disabled]="isLoadingLabExam || isSavingLabExam"
-                                            (click)="showLabExamFindingInput()">
-                                                @if (isLoadingLabExam || isSavingLabExam) {
-                                                    <span class="spinner-border spinner-border-sm me-2"></span>
-                                                } 
-                                                + Add Finding
-                                        </button>
-                                    }
-                                    @if (medicalRecordDetails.labExam?.labExamFindings.length > 0) {
-                                        @for (finding of medicalRecordDetails.labExam.labExamFindings; track finding.labExamFindingId) {
+                                    @if (medicalRecordDetails.labExam?.labExamFindings!.length > 0) {
+                                        @for (finding of medicalRecordDetails.labExam!.labExamFindings; track finding.labExamFindingId) {
                                             <div class="card shadow-sm bg-light">
                                                 <div class="card-body">
                                                     <app-lab-exam-finding 
@@ -227,26 +218,27 @@
                                             </div>
                                         }
                                     }
-                                    <b>Interpretation:</b>
+                                    <hr>
+                                    <h6>Interpretation:</h6>
                                     <form [formGroup]="labExamForm">
                                         <textarea class="form-control" formControlName="interpretation"></textarea>
                                     </form>
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-primary"
-                                        [disabled]="!labExamForm.dirty || isLoadingLabExam || isSavingLabExam"
-                                        (click)="saveLabExamChanges()">
-                                            @if (isLoadingLabExam || isSavingLabExam) {
-                                                <span class="spinner-border spinner-border-sm me-2"></span>
-                                            } 
-                                            Save
-                                    </button>
                                 </div>
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-primary mt-2"
+                                    [disabled]="!labExamForm.dirty || isLoadingLabExam || isSavingLabExam"
+                                    (click)="saveLabExamChanges()">
+                                        @if (isLoadingLabExam || isSavingLabExam) {
+                                            <span class="spinner-border spinner-border-sm me-2"></span>
+                                        } 
+                                        Save
+                                </button>
                             }
                             @else {
                                 <button
                                     type="button"
-                                    class="btn btn-sm btn-primary"
+                                    class="btn btn-sm btn-outline-primary"
                                     (click)="showLabExamInput()">
                                         @if (isLoadingLabExam || isSavingLabExam) {
                                             <span class="spinner-border spinner-border-sm me-2"></span>
@@ -258,6 +250,244 @@
                     </div>
                 </div>
             </div>
+            <div class="row gy-4">
+                <div class="col-lg">
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <b>Treatment</b>
+                        </div>
+                        <div class="card-body">
+                        @if (isTreatmentInputVisible || medicalRecordDetails.treatment) {
+                                <div class="d-grid gap-2">
+                                    <div class="d-flex gap-2">
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-outline-primary"
+                                            (click)="showSelectTreatmentItemModal('medication')">
+                                                @if (isLoadingTreatmentItem || isSavingTreatmentItem) {
+                                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                                } 
+                                                + Add Medication
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-outline-primary"
+                                            (click)="showSelectTreatmentItemModal('service')">
+                                                @if (isLoadingTreatmentItem || isSavingTreatmentItem) {
+                                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                                } 
+                                                + Add Service
+                                        </button>
+                                    </div>
+                                    <hr>
+                                    <div class="d-grid gap-2">
+                                        @if (pendingTreatmentItems.length > 0) {
+                                            <h6>To Add</h6>
+                                            <form [formGroup]="treatmentItemsForm" class="mb-3">
+                                                <div class="d-grid gap-2" formArrayName="pendingItems">
+                                                    @for (group of pendingTreatmentItems.controls; track group) {
+                                                        <div class="card shadow-sm border-warning">
+                                                            <div class="card-body" [formGroupName]="$index">
+                                                                <div class="row">
+                                                                    <div class="col-2">
+                                                                        <span>{{ group.value.nameAtTreatment }}</span>
+                                                                    </div>
+                                                                    <div class="col-2">
+                                                                        <span>₱{{ group.value.unitPrice }}</span>
+                                                                    </div>
+                                                                    <div class="col-1">
+                                                                        <input 
+                                                                            class="form-control" 
+                                                                            [class.d-none]="group.value.serviceId"
+                                                                            formControlName="quantity" 
+                                                                            type="number">
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <textarea class="form-control" formControlName="reason"></textarea>
+                                                                    </div>
+                                                                    <div class="col-1">
+                                                                        <button
+                                                                            type="button"
+                                                                            class="btn btn-sm btn-secondary"
+                                                                            [disabled]="isLoadingTreatmentItem || isSavingTreatmentItem"
+                                                                            (click)="removeSelectedTreatmentItem($index)">
+                                                                                <i class="bi bi-dash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-sm btn-primary"
+                                                        [disabled]="!treatmentItemsForm.dirty || isLoadingTreatmentItem || isSavingTreatmentItem"
+                                                        (click)="saveTreatmentItems()">
+                                                            @if (isLoadingTreatmentItem || isSavingTreatmentItem) {
+                                                                <span class="spinner-border spinner-border-sm me-2"></span>
+                                                            } 
+                                                            Add ({{ pendingTreatmentItems.length }}) Item(s)
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        }
+                                        @if (existingTreatmentItems.length > 0) {
+                                            <h6>Current</h6>
+                                            <form [formGroup]="treatmentItemsForm">
+                                                <div class="d-grid gap-2" formArrayName="existingItems">
+                                                    @for (group of existingTreatmentItems.controls; track group) {
+                                                    <div class="card shadow-sm border-primary">
+                                                        <div class="card-body" [formGroupName]="$index">
+                                                            <div class="row">
+                                                                <div class="col-2">
+                                                                    <span>{{ group.value.nameAtTreatment }}</span>
+                                                                </div>
+                                                                <div class="col-2">
+                                                                    <span>₱{{ group.value.unitPrice }}</span>
+                                                                </div>
+                                                                <div class="col-1">
+                                                                    <input 
+                                                                    class="form-control" 
+                                                                    [class.d-none]="group.value.serviceId"
+                                                                    formControlName="quantity" 
+                                                                    type="number">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <textarea class="form-control" formControlName="reason"></textarea>
+                                                                </div>
+                                                                <div class="col-1">
+                                                                    <button
+                                                                        type="button"
+                                                                        class="btn btn-sm btn-danger"
+                                                                        [disabled]="isLoadingTreatmentItem || isSavingTreatmentItem"
+                                                                        (click)="deleteTreatmentItem(group.value.treatmentItemId)">
+                                                                            <i class="bi bi-x"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    }
+                                                </div>
+                                            </form>
+                                            <div>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-sm btn-primary"
+                                                    [disabled]="isLoadingTreatmentItem || isSavingTreatmentItem"
+                                                    (click)="updateTreatmentItems()">
+                                                        Save Changes
+                                                </button>
+                                            </div>
+                                            <hr>
+                                        }
+                                        <h6>Others:</h6>
+                                        <form [formGroup]="treatmentForm">
+                                            <textarea class="form-control" formControlName="others"></textarea>
+                                        </form>
+                                    </div>
+                                </div>
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-primary mt-2"
+                                            [disabled]="!treatmentForm.dirty || isLoadingTreatment || isSavingTreatment"
+                                            (click)="saveTreatmentChanges()">
+                                                @if (isLoadingTreatment || isSavingTreatment) {
+                                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                                } 
+                                                Save
+                                        </button>
+                            }
+                            @else {
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-outline-primary"
+                                    (click)="showTreatmentInput()">
+                                        @if (isLoadingTreatment || isSavingTreatment) {
+                                            <span class="spinner-border spinner-border-sm me-2"></span>
+                                        } 
+                                        + Enter Treatment Plan
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     }
 </app-page-layout>
+<app-modal
+    [open]="isSelectTreatmentItemModalVisible"
+    [large]="true"
+    title="Add Treatment Item"
+    cancelText="Go Back"
+    affirmText="Add"
+    (affirmed)="addTreatmentItemsToTreatmentList()"
+    (cancelled)="hideSelectTreatmentItemModal()">
+
+    @if (isLoadingTreatmentItem) {
+        <app-loading-spinner />
+    }
+
+    @if (!isLoadingTreatmentItem) {
+        <table class="table table-hover table-bordered table-dark table-striped mb-0">
+            @if (this.selectedTreatmentItemType === 'medication') {
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Mfg.</th>
+                        <th>Expiration Date From Now</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (medication of medications; track medication.medicationId) {
+                        <tr>
+                            <td class="text-center">
+                                <input 
+                                    #checkbox type="checkbox" 
+                                    class="form-check-input" 
+                                    (change)="onMedicationChecked(medication, checkbox.checked)"
+                                    [disabled]="isMedicationSelected(medication.medicationId) || medication.availableCount <= 0">
+                            </td>
+                            <td>{{ medication.name }}</td>
+                            <td>{{ medication.price }}</td>
+                            <td>{{ medication.availableCount }}</td>
+                            <td>{{ medication.manufacturer }}</td>
+                            <td>{{ medication.expirationDate }}</td>
+                        </tr>
+                    }
+                </tbody>
+            }
+    
+            @if (this.selectedTreatmentItemType === 'service') {
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (service of services; track service.serviceId) {
+                        <tr>
+                            <td class="text-center">
+                                <input 
+                                    #checkbox type="checkbox" 
+                                    class="form-check-input" 
+                                    (change)="onServiceChecked(service, checkbox.checked)"
+                                    [disabled]="isServiceSelected(service.serviceId)">
+                            </td>
+                            <td>{{ service.name }}</td>
+                            <td>{{ service.price }}</td>
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+    }
+</app-modal>

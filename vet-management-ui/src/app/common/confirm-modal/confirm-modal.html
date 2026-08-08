@@ -1,25 +1,9 @@
-@if (open()) {
-    <div class="modal d-block ">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">{{ title() }}</h5>
-            <button type="button" class="btn-close" (click)="onCancel()"></button>
-          </div>
-          <div class="modal-body">
-            {{ message() }}
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="onCancel()">{{ cancelText() }}</button>
-            <button type="button" class="btn" [disabled]="isLoading()" [class]="confirmButtonClass()" (click)="onConfirm()">
-              @if (isLoading()) {
-                <span class="spinner-border spinner-border-sm me-2"></span>
-              }
-              {{ confirmText() }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-backdrop show"></div>
-}
+<app-modal
+  [open]="open()"
+  [title]="title()"
+  [cancelText]="cancelText()"
+  [affirmText]="confirmText()"
+  (affirmed)="onConfirm()"
+  (cancelled)="onCancel()">
+  {{ message() }}  
+</app-modal>

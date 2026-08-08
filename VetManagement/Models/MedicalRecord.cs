@@ -11,7 +11,7 @@
         public decimal Weight { get; set; }
         public string Complaint { get; set; } = String.Empty;
         public string Diagnosis { get; set; } = String.Empty;
-        public string Treatment { get; set; } = String.Empty;
+        public Treatment? Treatment { get; set; }
         public string ClinicalExam { get; set; } = String.Empty;
         public string ClientCommunication { get; set; } = String.Empty;
         public LabExam? LabExam { get; set; }
