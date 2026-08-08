@@ -376,7 +376,7 @@
                                                 <button
                                                     type="button"
                                                     class="btn btn-sm btn-primary"
-                                                    [disabled]="isLoadingTreatmentItem || isSavingTreatmentItem"
+                                                    [disabled]="!treatmentItemsForm.dirty || isLoadingTreatmentItem || isSavingTreatmentItem"
                                                     (click)="updateTreatmentItems()">
                                                         Save Changes
                                                 </button>
